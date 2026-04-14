@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://sct-africa.site/assets/logo%20SCT.png"/>
+    <title>Accueil - SCT AFRICA</title>
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link rel="preload" as="style" href="/build/assets/app-n0BMUso-.css" /><link rel="stylesheet" href="/build/assets/app-n0BMUso-.css" />    <link rel="modulepreload" href="/build/assets/app-BGDHvcUF.js" /><script type="module" src="/build/assets/app-BGDHvcUF.js"></script></head>
+<body class="bg-gray-50 text-gray-900 antialiased" x-data>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .navbar-shadow {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .smooth-transition {
+            transition: all 0.3s ease;
+        }
+        
+        .submenu-enter {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        
+        .submenu-enter-active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.2s, transform 0.3s;
+        }
+        
+        .search-suggestions {
+            display: none;
+        }
+        
+        .search-bar:focus-within + .search-suggestions,
+        .search-suggestions:hover {
+            display: block;
+        }
+        
+        /* Animation pour le menu mobile */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .mobile-menu {
+            animation: fadeIn 0.3s ease forwards;
+        }
+        
+        /* Styles pour l'animation aléatoire */
+        .random-transition-top {
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .random-transition-main {
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        /* Animation pour les sous-menus */
+        @keyframes slideInRandom {
+            0% {
+                opacity: 0;
+                transform: translateY(15px) scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .submenu-random {
+            animation: slideInRandom 0.3s ease-out forwards;
+        }
+    </style>
+
+
+    <!-- TOP BAR : Logo SCT + Search -->
+    <div 
+        x-data="{ lastScroll: 0, visible: true, randomTransition: 'random-transition-top' }"
+        x-init="
+            // Générer une transition aléatoire au chargement
+            const transitions = ['random-transition-top', 'random-transition-main'];
+            randomTransition = transitions[Math.floor(Math.random() * transitions.length)];
+            
+            window.addEventListener('scroll', () => { 
+                let currentScroll = window.scrollY;
+                // plus fluide: petite tolérance
+                if (currentScroll - lastScroll > 5 && currentScroll > 100) { 
+                    visible = false; // descente -> cacher
+                } else if (lastScroll - currentScroll > 5) {
+                    visible = true;  // montée -> afficher
+                }
+                lastScroll = currentScroll;
+            });
+        "
+        class="border-b border-gray-100 bg-accent sticky top-0 z-40 transform"
+        :class="[visible ? 'translate-y-0' : '-translate-y-full', randomTransition]"
+    >
+        <div class="container mx-auto px-4 sm:px-6 py-3 flex flex-col md:flex-row items-center justify-between gap-3">
+            
+            <!-- Logo Xerox -->
+            <a href="/" class="flex items-center gap-3 flex-shrink-0">
+                <img class="w-28 sm:w-32 md:w-36 transition-transform hover:scale-105" 
+                    src="/assets/Logo_20Xerox.png" 
+                    alt="Xerox"
+                    loading="eager"
+                    fetchpriority="high">
+            </a>
+
+            <!-- Search bar -->
+            <div class="hidden [@media(min-width:770px)]:block relative w-full md:max-w-xl" 
+                x-data="{ searchQuery: '', searchOpen: false }">
+                <div class="relative">
+                    <input 
+                        x-model="searchQuery"
+                        @focus="searchOpen = true"
+                        @blur="setTimeout(() => searchOpen = false, 150)"
+                        type="text" 
+                        placeholder="Rechercher un produit, une solution..." 
+                        class="w-full border border-gray-300 rounded-full px-5 py-2.5 pl-12 focus:outline-none focus:ring-2 focus:ring-primary shadow-sm text-sm md:text-base smooth-transition"
+                    >
+                    <ion-icon name="search-outline" 
+                            class="w-5 h-5 absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></ion-icon>
+                </div>
+                
+                <!-- Suggestions -->
+                <div 
+                    x-show="searchOpen && searchQuery.length > 0"
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0 transform translate-y-2"
+                    x-transition:enter-end="opacity-100 transform translate-y-0"
+                    x-transition:leave="transition ease-in duration-150"
+                    x-transition:leave-start="opacity-100 transform translate-y-0"
+                    x-transition:leave-end="opacity-0 transform translate-y-2"
+                    class="absolute left-0 right-0 mt-2 bg-white rounded-xl shadow-lg py-3 z-50 border border-gray-100"
+                >
+                    <div class="px-4 py-2 text-sm text-gray-500">
+                        Résultats pour "<span x-text="searchQuery" class="font-medium"></span>"
+                    </div>
+                    <div class="max-h-72 overflow-y-auto">
+                        <a href="#" class="block px-4 py-2.5 hover:bg-gray-50 smooth-transition">
+                            <div class="flex items-center">
+                                <ion-icon name="hardware-chip-outline" class="text-gray-400 mr-3"></ion-icon>
+                                <span>Imprimante <span x-text="searchQuery" class="font-medium"></span></span>
+                            </div>
+                        </a>
+                        <a href="#" class="block px-4 py-2.5 hover:bg-gray-50 smooth-transition">
+                            <div class="flex items-center">
+                                <ion-icon name="document-outline" class="text-gray-400 mr-3"></ion-icon>
+                                <span>Scanner <span x-text="searchQuery" class="font-medium"></span></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+<header 
+    x-data="{ 
+        open: false, 
+        scrolled: false, 
+        submenu: null,
+        searchOpen: false,
+        searchQuery: '',
+        randomTransition: 'random-transition-main'
+    }" 
+    x-init="
+        // Générer une transition aléatoire au chargement
+        const transitions = ['random-transition-top', 'random-transition-main'];
+        randomTransition = transitions[Math.floor(Math.random() * transitions.length)];
+        
+        window.addEventListener('scroll', () => { 
+            scrolled = window.scrollY > 10;
+            if (window.scrollY > 200) {
+                searchOpen = false;
+            }
+        });
+        $watch('searchQuery', value => {
+            if (value.length > 2) {
+                // Simuler des suggestions de recherche
+                // En situation réelle, vous feriez une requête API ici
+            }
+        })
+    "
+    class="sticky top-0 z-50"
+    :class="[scrolled ? 'bg-white/95 backdrop-blur-md navbar-shadow' : 'bg-white shadow-sm', randomTransition]"
+>
+
+
+    <!-- MAIN NAV : Logo Xerox + Menus -->
+    <div class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
+        
+        <!-- Logo Xerox -->
+        <a href="/" class="flex items-center flex-shrink-0">
+            <img class="w-32 md:w-48 transition-transform hover:scale-105" 
+            src="/image/sct-afrik.png" 
+                alt="SCT AFRICA"
+                loading="lazy">
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden xl:flex items-center space-x-8 text-gray-800 font-medium">
+            <!-- Accueil -->
+            <a href="/" 
+            class="hover:text-primary smooth-transition py-2 relative group text-primary font-semibold">
+                Accueil
+                <span class="absolute bottom-0 left-0 h-0.5 bg-primary smooth-transition w-full"></span>
+            </a>
+
+            <!-- A propos -->
+            <div class="relative group" x-data="{ open: false }">
+                <button 
+                    @click="open = !open"
+                    @mouseover="open = true" 
+                    @mouseleave="open = false"
+                    class="flex items-center gap-1 hover:text-primary smooth-transition py-2 ">
+                    A propos de nous
+                    <ion-icon name="chevron-down-outline" class="w-4 h-4 smooth-transition" :class="open ? 'rotate-180' : ''"></ion-icon>
+                </button>
+
+                <div 
+                    x-show="open"
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 transform translateY(-10px)"
+                    x-transition:enter-end="opacity-100 transform translateY(0)"
+                    class="absolute left-0 top-full hidden group-hover:flex flex-col bg-white shadow-xl rounded-lg mt-0 w-64 overflow-hidden border border-gray-100"
+                    @mouseover="open = true" 
+                    @mouseleave="open = false"
+                >
+                    <a href="/about/" class="px-6 py-3 hover:bg-gray-50 smooth-transition flex items-center ">
+                        <ion-icon name="information-circle-outline" class="mr-2 text-gray-400"></ion-icon>
+                        À propos de nous
+                    </a>
+                    <a href="/missions/" class="px-6 py-3 hover:bg-gray-50 smooth-transition flex items-center ">
+                        <ion-icon name="flag-outline" class="mr-2 text-gray-400"></ion-icon>
+                        Missions et Réalités
+                    </a>
+                    <a href="/engagements/" class="px-6 py-3 hover:bg-gray-50 smooth-transition flex items-center ">
+                        <ion-icon name="heart-outline" class="mr-2 text-gray-400"></ion-icon>
+                        Nos engagements
+                    </a>
+                </div>
+            </div>
+
+            <!-- Produits -->
+            <div class="relative group" x-data="{ open: false }">
+                <button 
+                    @click="open = !open"
+                    @mouseover="open = true" 
+                    @mouseleave="open = false"
+                    class="flex items-center gap-1 hover:text-primary smooth-transition py-2 ">
+                    Produits et Services
+                    <ion-icon name="chevron-down-outline" class="w-4 h-4 smooth-transition" :class="open ? 'rotate-180' : ''"></ion-icon>
+                </button>
+
+                <div 
+                    x-show="open"
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 transform translateY(-10px)"
+                    x-transition:enter-end="opacity-100 transform translateY(0)"
+                    class="absolute left-0 top-full hidden group-hover:grid grid-cols-3 gap-8 bg-white shadow-2xl rounded-xl mt-0 w-[800px] p-8 border border-gray-100"
+                    @mouseover="open = true" 
+                    @mouseleave="open = false"
+                >
+                    <div>
+                        <h4 class="font-semibold text-primary mb-4 flex items-center">
+                            <ion-icon name="business-outline" class="mr-2"></ion-icon>
+                            Produits Office
+                        </h4>
+                        <ul class="space-y-3">
+                            <li><a href="/products-imprimantes/" class="hover:text-secondary smooth-transition flex items-center ">
+                                <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
+                                Machines Xerox
+                            </a></li>
+                            <li><a href="#" class="hover:text-secondary smooth-transition flex items-center">
+                                <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
+                                Solutions d'impression
+                            </a></li>
+                            <li><a href="/products-accessoires/" class="hover:text-secondary smooth-transition flex items-center ">
+                                <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
+                                Accessoires
+                            </a></li>
+                            <li><a href="/products-scanners/" class="hover:text-secondary smooth-transition flex items-center ">
+                                <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
+                                Scanners
+                            </a></li>
+                            <li><a href="#" class="hover:text-secondary smooth-transition flex items-center">
+                                <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
+                                Logiciels d'impression
+                            </a></li>
+                        </ul>
+                    </div>
+
+                    
+                </div>
+            </div>
+
+            <!-- Contact -->
+            <a href="/contact/" 
+            class="hover:text-primary smooth-transition py-2 relative group ">
+                Contactez-Nous
+                <span class="absolute bottom-0 left-0 h-0.5 bg-primary smooth-transition w-0 group-hover:w-full"></span>
+            </a>
+        </nav>
+
+
+        <!-- CTA et Mobile button -->
+        <div class="flex items-center space-x-4">
+            <a href="/devis/" class="hidden lg:inline-block bg-primary hover:bg-blue-700 text-white font-medium py-2 px-5 rounded-full smooth-transition">
+                <ion-icon name="document-text-outline" class="inline-block w-5 h-5 mr-2"></ion-icon>
+                Demander un devis
+            </a>
+            
+            <button @click="open = !open" class="xl:hidden text-gray-700 focus:outline-none p-1 rounded-md hover:bg-gray-100">
+                <ion-icon :name="open ? 'close-outline' : 'menu-outline'" class="w-7 h-7"></ion-icon>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div x-show="open" x-transition class="xl:hidden bg-white shadow-lg border-t mobile-menu">
+<nav class="space-y-1 py-4 px-6">
+    <!-- Accueil -->
+    <a href="/" 
+       class="block py-3 px-4 rounded-lg smooth-transition font-medium 
+              bg-primary text-white font-semibold">
+        Accueil
+    </a>
+
+    <!-- A propos mobile -->
+    <div>
+        <button 
+            @click="submenu === 'about' ? submenu = null : submenu = 'about'" 
+            class="w-full flex justify-between items-center py-3 px-4 rounded-lg smooth-transition font-medium 
+                   hover:bg-gray-50">
+            <span>A propos de nous</span>
+            <ion-icon :name="submenu==='about' ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+        </button>
+
+        <div x-show="submenu==='about'" x-collapse class="pl-6 mt-1 space-y-2">
+                <a href="/about/" 
+               class="block py-2 px-4 rounded-lg smooth-transition 
+                      hover:bg-gray-50">
+                À propos de nous
+            </a>
+                <a href="/missions/" 
+               class="block py-2 px-4 rounded-lg smooth-transition 
+                      hover:bg-gray-50">
+                Missions et Réalités
+            </a>
+                <a href="/engagements/" 
+               class="block py-2 px-4 rounded-lg smooth-transition 
+                      hover:bg-gray-50">
+                Nos engagements
+            </a>
+        </div>
+    </div>
+
+    <!-- Produits mobile -->
+    <div>
+        <button 
+            @click="submenu === 'products' ? submenu = null : submenu = 'products'" 
+            class="w-full flex justify-between items-center py-3 px-4 rounded-lg smooth-transition font-medium 
+                   hover:bg-gray-50">
+            <span>Produits et Services</span>
+            <ion-icon :name="submenu==='products' ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+        </button>
+
+        <div x-show="submenu==='products'" x-collapse class="pl-6 mt-1 space-y-2">
+                <a href="/products-imprimantes/" 
+               class="block py-2 px-4 rounded-lg smooth-transition 
+                      hover:bg-gray-50">
+                Machines Xerox
+            </a>
+            <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-50 smooth-transition">
+                Solutions d'impression
+            </a>
+                <a href="/products-accessoires/" 
+               class="block py-2 px-4 rounded-lg smooth-transition 
+                      hover:bg-gray-50">
+                Accessoires
+            </a>
+                <a href="/products-scanners/" 
+               class="block py-2 px-4 rounded-lg smooth-transition 
+                      hover:bg-gray-50">
+                Scanners
+            </a>
+            <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-50 smooth-transition">
+                Logiciels d'impression
+            </a>
+            <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-50 smooth-transition">
+                Tablettes
+            </a>
+            <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-50 smooth-transition">
+                Logiciels
+            </a>
+            <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-50 smooth-transition">
+                Cartouches
+            </a>
+            <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-50 smooth-transition">
+                Papiers
+            </a>
+        </div>
+    </div>
+
+    <!-- Contact -->
+    <a href="/contact/" 
+       class="block py-3 px-4 rounded-lg smooth-transition font-medium 
+              hover:bg-gray-50">
+        Contact
+    </a>
+    
+    <!-- Devis -->
+    <div class="pt-4 border-t border-gray-100 mt-4">
+        <a href="/devis/" 
+           class="block w-full border-2 border-secondary text-secondary text-center font-medium py-3 px-5 rounded-lg smooth-transition">
+            <ion-icon name="document-text-outline" class="inline-block w-5 h-5 mr-2"></ion-icon>
+            Demander un devis
+        </a>
+    </div>
+</nav>
+
+    </div>
+
+</header>
+
+<script>
+    // Fonction pour ajouter un effet de fluidité aléatoire
+    document.addEventListener('alpine:init', () => {
+        // Cette fonctionnalité est déjà intégrée dans les composants x-data
+    });
+</script>        
+    
+<div 
+  x-data="{ currentIndex: 0, 
+            slides: [
+              { image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1170&q=80', title: 'Innovation et Créativité', text: 'Découvrez comment notre plateforme stimule la créativité et l’innovation.' },
+              { image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1170&q=80', title: 'Apprentissage Collaboratif', text: 'Travaillez en équipe et améliorez vos compétences grâce à des outils modernes.' },
+              { image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1170&q=80', title: 'Technologie et Performance', text: 'Nous mettons la technologie au service de la performance humaine.' },
+              { image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1170&q=80', title: 'Esprit d’Équipe', text: 'Partagez, collaborez et grandissez ensemble dans un environnement dynamique.' }
+            ] }" 
+  x-init="setInterval(() => currentIndex = (currentIndex + 1) % slides.length, 4000)"
+  class="relative w-full h-screen overflow-hidden shadow-lg bg-gray-900"
+>
+
+  <!-- Slides Container -->
+  <div class="flex transition-transform duration-700 ease-in-out h-full"
+       :style="'transform: translateX(-' + (currentIndex * 100) + '%)'">
+    <template x-for="(slide, index) in slides" :key="index">
+      <div class="w-full flex-shrink-0 h-full relative">
+        <img :src="slide.image" class="w-full h-full object-cover" alt="">
+        <div class="absolute inset-0 bg-black/50 flex flex-col justify-center items-start px-10 sm:px-20 text-white">
+          <h2 class="text-3xl sm:text-5xl font-bold mb-4" x-text="slide.title"></h2>
+          <p class="max-w-lg text-lg sm:text-xl" x-text="slide.text"></p>
+        </div>
+      </div>
+    </template>
+  </div>
+
+  <!-- Indicators -->
+  <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-3">
+    <template x-for="(slide, index) in slides" :key="index">
+      <button 
+        class="w-3 h-3 rounded-full transition-all duration-300"
+        :class="currentIndex === index ? 'bg-white scale-125' : 'bg-white/50 hover:bg-white/80'"
+        @click="currentIndex = index">
+      </button>
+    </template>
+  </div>
+
+  <!-- Navigation (optionnelle) -->
+  <button @click="currentIndex = (currentIndex - 1 + slides.length) % slides.length"
+          class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 text-white rounded-full p-2 transition">
+    <ion-icon name="chevron-back-outline" class="text-2xl"></ion-icon>
+  </button>
+
+  <button @click="currentIndex = (currentIndex + 1) % slides.length"
+          class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 text-white rounded-full p-2 transition">
+    <ion-icon name="chevron-forward-outline" class="text-2xl"></ion-icon>
+  </button>
+</div>
+
+
+    
+    
+
+    
+    
+
+    <!-- Hero -->
+    <section class="relative overflow-hidden">
+    <div class="absolute inset-0">
+        <img src="https://www.beart.fr/wp-content/uploads/2024/10/imprimante-laser-professionnelle.jpg" 
+            alt="Impression grand format" 
+            class="w-full h-full object-cover object-center">
+        
+        <!-- Overlay léger -->
+        <div class="absolute inset-0 bg-primary"></div>
+    </div>
+
+
+    <div class="relative py-20 mx-auto px-6 lg:px-16">
+      <div class="grid lg:grid-cols-2 gap-10 items-center">
+        <div class="text-light" data-aos="fade-right" data-aos-delay="200">
+          <h2 class="text-4xl lg:text-5xl font-extrabold leading-tight">
+            Des <span class="text-white">Solutions</span> pour chaque industrie et chaque besoin.
+          </h2>
+          <p class="mt-4 text-neutral-200 max-w-xl">
+            Les défis spécifiques nécessitent des solutions spécialisées. C'est pourquoi MFI conçoit des solutions 
+            d'impression professionnelles sur mesure. Experts dans un large éventail de secteurs et de besoins, 
+            nous optimisons les flux de travail, réduisons les coûts, améliorons l'accessibilité et minimisons 
+            l'impact environnemental de l'impression, le tout avec le service inégalé de MFI.
+          </p>
+
+          <div class="mt-6 flex gap-4">
+            <a href="#produits" class="px-5 py-3 rounded-xl bg-light text-secondary font-semibold shadow">Découvrir nos services</a>
+            
+            <a href="/devis/" class="px-5 py-3 rounded-xl border border-light text-light hover:bg-white/10">
+              <ion-icon name="flash-outline" class="mr-2"></ion-icon> Obtenir un devis
+            </a>
+          </div>
+
+          <div class="mt-6 flex gap-6 items-center text-sm text-neutral-200">
+            <div class="flex items-center gap-3">
+              <ion-icon name="checkmark-circle" class="text-2xl"></ion-icon>
+              <span>Livraison garantie & délais respectés</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <ion-icon name="shield-checkmark" class="text-2xl"></ion-icon>
+              <span>Impression sécurisée pour processus électoral</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- right: panels / quick services -->
+        <div class="grid gap-4" data-aos="fade-left" data-aos-delay="400" x-data="{ openSections: [] }">
+          <div class="border rounded-lg" x-data="{ isOpen: false }">
+            <button @click="isOpen = !isOpen" class="w-full text-left p-4 bg-gray-100 rounded-t-lg flex justify-between items-center">
+              <span>Éducation</span>
+              <svg x-show="!isOpen" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+              <svg x-show="isOpen" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div x-show="isOpen" x-collapse class="p-4">
+              
+              <p class="text-white">
+                
+                <ion-icon name="checkmark-circle" class="mr-2"></ion-icon>
+                Nous proposons des solutions d'impression adaptées aux établissements d'enseignement, 
+                allant des brochures aux affiches, en passant par les supports pédagogiques.
+              </p>
+              <p class="text-white">
+                <ion-icon name="checkmark-circle" class="mr-2"></ion-icon>
+                Nos solutions aident à réduire les coûts tout en améliorant l'efficacité des processus d'impression.
+              </p>
+              <p class="text-white">
+                <ion-icon name="checkmark-circle" class="mr-2"></ion-icon>
+                Nous offrons également des services de gestion documentaire pour faciliter l'accès aux ressources éducatives.
+              </p>
+            </div>
+          </div>
+          <div class="border rounded-lg" x-data="{ isOpen: false }">
+            <button @click="isOpen = !isOpen" class="w-full text-left p-4 bg-gray-100 rounded-t-lg flex justify-between items-center">
+              <span>Gouvernement et commissions électorales</span>
+              <svg x-show="!isOpen" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+              <svg x-show="isOpen" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div x-show="isOpen" x-collapse class="p-4">
+              <p class="text-white">
+                <ion-icon name="checkmark-circle" class="mr-2"></ion-icon>
+                Nous fournissons des solutions d'impression sécurisées pour les documents électoraux, 
+                garantissant l'intégrité et la confidentialité des informations.
+              </p>
+              <p class="text-white">
+                <ion-icon name="checkmark-circle" class="mr-2"></ion-icon>
+                Nos services incluent la gestion des flux de travail d'impression pour les commissions électorales, 
+                assurant une distribution efficace des documents.
+              </p>
+              <p class="text-white">
+                <ion-icon name="checkmark-circle" class="mr-2"></ion-icon>
+                Nous offrons des solutions de suivi et de traçabilité pour garantir la transparence tout au long du processus électoral.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    
+    
+
+    <!-- services section -->
+    
+
+    
+    <section id="produits" class="py-20 bg-gray-100">
+        <div class="container mx-auto px-6 lg:px-16 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4" data-aos="fade-down" data-aos-delay="200">
+                Nos <span class="text-primary">Produits & Services</span>
+            </h2>
+            <p class="text-gray-600 max-w-2xl mx-auto mb-12" data-aos="fade-down" data-aos-delay="300">
+                Découvrez notre gamme complète de solutions pour répondre à tous vos besoins professionnels.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" data-aos="fade-up" data-aos-delay="400">
+                <!-- Service 1 -->
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition">
+                    <img src="/image/img/imp-xerox.jpg" alt="Imprimantes & Copieurs" class="w-full h-48 object-cover rounded-md mb-4">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Machines Xerox</h3>
+                    <p class="text-gray-600 mb-4">
+                        Machines d'impression et de copie haute performance pour tous les environnements de travail.
+                    </p>
+                    <a href="/products-imprimantes/" class="text-primary font-medium hover:underline">En savoir plus...</a>
+                </div>
+                <!-- Service 2 -->
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition">
+                    <img src="https://www.xerox.com/assets/images/brand_engine/products/hardware/ALC82XX/short-hero_800x400.jpg" alt="Solutions IT & Cloud" class="w-full h-48 object-cover rounded-md mb-4">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Solutions d'impression</h3>
+                    <p class="text-gray-600 mb-4">
+                        Des solutions d'impression avancées pour optimiser vos flux de travail et réduire les coûts.
+                    </p>
+                    <a href="" class="text-primary font-medium hover:underline">En savoir plus...</a>
+                </div>
+                <!-- Service 3 -->
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition">
+                    <img src="https://www.encreservices.fr/storage/products/xerox-115r00128-receptacle-de-poudre-toner-original.jpg" alt="Accessoires" class="w-full h-48 object-cover rounded-md mb-4">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Accessoires</h3>
+                    <p class="text-gray-600 mb-4">
+                        Une large gamme d'accessoires et consommables pour optimiser vos équipements.
+                    </p>
+                    <a href="/products-accessoires/" class="text-primary font-medium hover:underline">En savoir plus...</a>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition">
+                    <img src="https://m.media-amazon.com/images/I/71P6z6yPZpL._AC_SL1500_.jpg" alt="Scanners" class="w-full h-48 object-cover rounded-md mb-4">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Scanners</h3>
+                    <p class="text-gray-600 mb-4">
+                        Solutions de numérisation performantes pour une gestion documentaire efficace.
+                    </p>
+                    <a href="/products-scanners/" class="text-primary font-medium hover:underline">En savoir plus...</a>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition">
+                    <img src="https://images.ctfassets.net/ao073xfdpkqn/5b2fTEESs6XCyo5xArsabH/1129dc324523a055ccdf451bf297b738/Print-Piece-Observing-2400x1600.jpg" alt="Logiciels d'impression" class="w-full h-48 object-cover rounded-md mb-4">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Logiciels d'impression</h3>
+                    <p class="text-gray-600 mb-4">
+                        Des solutions logicielles pour optimiser et sécuriser vos processus d'impression.
+                    </p>
+                    <a href="" class="text-primary font-medium hover:underline">En savoir plus...</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pourquoi nous choisir -->
+    <section class="relative py-20 bg-white">
+        <div class="container mx-auto px-6 lg:px-16 flex flex-col lg:flex-row items-center gap-12">
+            
+            <!-- Texte -->
+            <div class="flex-1 space-y-6" data-aos="fade-right">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
+                Pourquoi choisir <span class="text-primary">SCT AFRICA</span> ?
+            </h2>
+            <p class="text-gray-600 leading-relaxed max-w-lg">
+                Nous mettons à votre disposition des solutions technologiques modernes, fiables et adaptées aux besoins de votre entreprise.
+            </p>
+
+            <ul class="space-y-4">
+                <li class="flex items-start gap-3">
+                <span class="w-8 h-8 flex items-center justify-center rounded-full bg-primary text-white font-bold">✓</span>
+                <p class="text-gray-700"><strong>Expertise locale & internationale</strong> – Des années d’expérience dans l’accompagnement des entreprises.</p>
+                </li>
+                <li class="flex items-start gap-3">
+                <span class="w-8 h-8 flex items-center justify-center rounded-full bg-primary text-white font-bold">✓</span>
+                <p class="text-gray-700"><strong>Produits et solutions innovants</strong> – Un large catalogue pour vos besoins en bureautique, IT et cloud.</p>
+                </li>
+                <li class="flex items-start gap-3">
+                <span class="w-8 h-8 flex items-center justify-center rounded-full bg-primary text-white font-bold">✓</span>
+                <p class="text-gray-700"><strong>Support réactif</strong> – Une équipe à votre écoute avec un service après-vente performant.</p>
+                </li>
+            </ul>
+
+            <a href="/contact/" class="inline-block mt-6 px-6 py-3 bg-primary text-white font-medium rounded-lg shadow-md hover:bg-secondary transition">
+                Contactez-nous
+            </a>
+            </div>
+
+            <!-- Image -->
+            <div class="flex-1 relative" data-aos="fade-left">
+                
+                
+                <img src="/image/home-img.jpg" 
+                    alt="Équipe SCT AFRICA" class="rounded-2xl shadow-lg w-full object-cover"
+                >
+                <div class="absolute inset-0 rounded-2xl mix-blend-multiply"></div>
+            </div>
+
+        </div>
+    </section>
+
+    
+    <section class="relative py-20 bg-gray-100">
+        <div class="container mx-auto px-6 lg:px-16 flex flex-col lg:flex-row items-center gap-12">
+            
+            <!-- Image -->
+            <div class="flex-1 relative order-last lg:order-first" data-aos="fade-right">
+            <img src="/image/xerox-image.webp" alt="Équipe SCT AFRICA" class="rounded-2xl shadow-lg w-full object-cover">
+            <div class="absolute inset-0 rounded-2xl mix-blend-multiply"></div>
+            </div>
+
+            <!-- Texte -->
+            <div class="flex-1 space-y-6" data-aos="fade-left">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
+                Nos <span class="text-primary">Valeurs</span>
+            </h2>
+            <p class="text-gray-600 leading-relaxed max-w-lg">
+                Chez SCT AFRICA, nous croyons en l'innovation, la qualité et le service client exceptionnel. Nos valeurs fondamentales guident chaque interaction et décision que nous prenons.
+            </p>
+
+            <ul class="space-y-4">
+                <li class="flex items-start gap-3">
+                <span class="w-8 h-8 flex items-center justify-center rounded-full bg-primary text-white font-bold">✓</span>
+                <p class="text-gray-700"><strong>Innovation continue</strong> – Nous investissons dans les dernières technologies pour offrir des solutions à la pointe.</p>
+                </li>
+                <li class="flex items-start gap-3">
+                <span class="w-8 h-8 flex items-center justify-center rounded-full bg-primary text-white font-bold">✓</span>
+                <p class="text-gray-700"><strong>Engagement qualité</strong> – Des produits et services qui répondent aux normes les plus élevées.</p>
+                </li>
+                <li class="flex items-start gap-3">
+                <span class="w-8 h-8 flex items-center justify-center rounded-full bg-primary text-white font-bold">✓</span>
+                <p class="text-gray-700"><strong>Service client exceptionnel</strong> – Votre satisfaction est notre priorité absolue.</p>
+                </li>
+            </ul>
+            <a href="#contact" class="inline-block mt-6 px-6 py-3 bg-primary text-white font-medium rounded-lg shadow-md hover:bg-secondary transition">
+                En savoir plus
+            </a>
+            </div>
+        </div>
+    </section>
+
+
+    
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6 lg:px-16 text-center">
+            
+            <!-- Titre -->
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4" data-aos="fade-bottom" data-aos-delay="200">
+            Notre <span class="text-primary">Partenaire</span> de confiance
+            </h2>
+            <p class="text-gray-600 max-w-2xl mx-auto mb-12" data-aos="fade-bottom" data-aos-delay="300">
+                Nous collaborons avec une marque reconnue pour vous offrir des solutions fiables et de haute qualité.
+            </p>
+            
+            <!-- Logos partenaires -->
+            <div class="grid items-center" data-aos="fade-up" data-aos-delay="400">
+            
+                <!-- Exemple de logo -->
+                <div class="group">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Xerox_logo.svg/1200px-Xerox_logo.svg.png" 
+                        alt="Xerox"
+                        class="mx-auto h-12 grayscale group-hover:grayscale-0 group-hover:scale-105 transition duration-300">
+                </div>
+
+            </div>
+        </div>
+    </section>
+    
+    
+
+    
+<!-- Modal Devis -->
+<div 
+    x-data="{ open: false }"
+    @open-quote.window="open = true"
+    x-cloak
+>
+    <!-- Overlay -->
+    <div 
+        x-show="open"
+        x-transition.opacity
+        class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
+    ></div>
+
+    <!-- Contenu du modal -->
+    <div 
+        x-show="open"
+        x-transition.scale
+        class="fixed inset-0 z-50 flex items-center justify-center px-4"
+    >
+        <div @click.away="open = false"
+             class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8 relative">
+
+            <!-- Bouton fermer -->
+            <button @click="open = false" 
+                    class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                <ion-icon name="close-outline" class="w-7 h-7"></ion-icon>
+            </button>
+
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Demander un devis</h2>
+            <p class="text-gray-600 mb-6">Remplissez ce formulaire et notre équipe vous contactera rapidement.</p>
+
+            <form class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Nom complet</label>
+                    <input type="text" placeholder="Votre nom"
+                        class="w-full border rounded-lg px-4 py-2 mt-1 focus:ring-2 focus:ring-primary focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" placeholder="Votre email"
+                        class="w-full border rounded-lg px-4 py-2 mt-1 focus:ring-2 focus:ring-primary focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Téléphone</label>
+                    <input type="tel" placeholder="Votre numéro"
+                        class="w-full border rounded-lg px-4 py-2 mt-1 focus:ring-2 focus:ring-primary focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Message / Besoin</label>
+                    <textarea rows="4" placeholder="Décrivez votre projet..."
+                        class="w-full border rounded-lg px-4 py-2 mt-1 focus:ring-2 focus:ring-primary focus:outline-none"></textarea>
+                </div>
+                
+                <button type="submit"
+                        class="w-full py-3 rounded-lg bg-primary text-white font-semibold hover:bg-primary/90 transition">
+                    Envoyer la demande
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <footer class="bg-secondary text-white pt-16 pb-8 mt-0 relative py-20 mx-auto px-auto lg:px-10">
+    <div class="container mx-auto px-6 grid md:grid-cols-4 gap-10">
+        
+        <!-- Logo + Description -->
+        <div>
+            <img src="https://sct-africa.site/assets/logo%20SCT.png" alt="SCT AFRICA" class="w-28 mb-4">
+            <p class="text-sm leading-relaxed opacity-90">
+                SCT AFRICA, votre partenaire dans le numérique et la vente de matériels informatiques. 
+                Nous vous offrons des solutions fiables, innovantes et adaptées à vos besoins.
+            </p>
+        </div>
+        
+        <!-- Navigation -->
+        <div>
+            <h3 class="text-lg font-semibold mb-4 border-b border-white/30 inline-block">Navigation</h3>
+            <ul class="space-y-2">
+                <li><a href="#" class="hover:text-accent transition">Accueil</a></li>
+                <li><a href="#" class="hover:text-accent transition">Qui sommes-nous ?</a></li>
+                <li><a href="#" class="hover:text-accent transition">Nos produits</a></li>
+                <li><a href="#" class="hover:text-accent transition">Solutions</a></li>
+                <li><a href="#" class="hover:text-accent transition">Contact</a></li>
+            </ul>
+        </div>
+        
+        <!-- Produits -->
+        <div>
+            <h3 class="text-lg font-semibold mb-4 border-b border-white/30 inline-block">Produits et Services</h3>
+            <ul class="space-y-2">
+                <li><a href="#" class="hover:text-accent transition">Machines Xerox</a></li>
+                <li><a href="#" class="hover:text-accent transition">Solutions d'impression</a></li>
+                <li><a href="#" class="hover:text-accent transition">Accessoires</a></li>
+                <li><a href="#" class="hover:text-accent transition">Scanners</a></li>
+                <li><a href="#" class="hover:text-accent transition">Logiciels d'impression</a></li>
+            </ul>
+        </div>
+        
+        <!-- Contact -->
+        <div>
+            <h3 class="text-lg font-semibold mb-4 border-b border-white/30 inline-block">Contact</h3>
+            <p class="text-sm">
+                <ion-icon name="location-outline" class="inline-block mr-2"></ion-icon>
+                Dakar, Sénégal
+            </p>
+            <p class="text-sm">
+                <ion-icon name="call-outline" class="inline-block mr-2"></ion-icon>
+                +221 70 00 00 00
+            </p>
+            <p class="text-sm">
+                <ion-icon name="mail-outline" class="inline-block mr-2"></ion-icon>
+                contact@sct-africa.com
+            </p>
+            
+            <!-- Réseaux sociaux -->
+            <div class="flex gap-4 mt-4">
+                <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-accent transition">
+                    <ion-icon name="logo-facebook"></ion-icon>
+                </a>
+                <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-accent transition">
+                    <ion-icon name="logo-twitter"></ion-icon>
+                </a>
+                <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-accent transition">
+                    <ion-icon name="logo-linkedin"></ion-icon>
+                </a>
+                <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-accent transition">
+                    <ion-icon name="logo-instagram"></ion-icon>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bas de page -->
+    <div class="border-t border-white/20 mt-12 pt-6 text-center text-sm opacity-80">
+        © 2026 SCT AFRICA. Tous droits réservés.
+    </div>
+</footer>
+    
+    
+    <!-- Bouton Retour en haut -->
+    <button id="backToTop"
+        class="hidden fixed bottom-6 right-6 p-3 rounded-full 
+            bg-secondary/20 backdrop-blur-lg border border-secondary/30 
+            shadow-xl hover:scale-110 hover:bg-secondary/30 
+            transition-all duration-500 ease-out z-50">
+        <ion-icon name="arrow-up-outline" class="text-2xl text-white drop-shadow-lg"></ion-icon>
+    </button>
+
+
+</body>
+
+    <!-- Animation AOS (optionnel si tu veux des effets smooth au scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+    </script>
+
+    <script>
+        // Bouton Retour en haut
+        const backToTopButton = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.remove('hidden');
+            } else {
+                backToTopButton.classList.add('hidden');
+            }
+        });
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+
+</html>

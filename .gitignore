@@ -1,0 +1,9 @@
+.secrets/
+deploy/
+public_html/
+downloaded_site_full_latest_cfe/
+
+*.log
+*.tmp
+Thumbs.db
+.DS_Store
