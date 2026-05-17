@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="Images/logo-sct.png"/>
+    <title>Produits Accessoires - SCT AFRICA</title>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link rel="preload" as="style" href="https://sct.cfe-consulting-bf.com/build/assets/app-n0BMUso-.css" />
+    <link rel="stylesheet" href="https://sct.cfe-consulting-bf.com/build/assets/app-n0BMUso-.css" />
+    <link rel="modulepreload" href="https://sct.cfe-consulting-bf.com/build/assets/app-BGDHvcUF.js" />
+    <script type="module" src="https://sct.cfe-consulting-bf.com/build/assets/app-BGDHvcUF.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-50 text-gray-900 antialiased" x-data>
+
+    <!-- TOP BAR : Logo Xerox + Search -->
+    <div 
+        x-data="{ lastScroll: 0, visible: true, randomTransition: 'random-transition-top' }"
+        x-init="
+            randomTransition = ['random-transition-top', 'random-transition-main'][Math.floor(Math.random() * 2)];
+            
+            window.addEventListener('scroll', () => { 
+                let currentScroll = window.scrollY;
+                if (currentScroll - lastScroll > 5 && currentScroll > 100) { 
+                    visible = false;
+                } else if (lastScroll - currentScroll > 5) {
+                    visible = true;
+                }
+                lastScroll = currentScroll;
+            });
+        "
+        class="border-b border-gray-100 bg-accent sticky top-0 z-40 transform"
+        :class="[visible ? 'translate-y-0' : '-translate-y-full', randomTransition]"
+    >
+        <div class="container mx-auto px-4 sm:px-6 py-3 flex flex-col md:flex-row items-center justify-between gap-3">
+            
+            <!-- Logo Xerox -->
+            <a href="index.html" class="flex items-center gap-3 flex-shrink-0">
+                <img class="w-24 md:w-36 transition-transform hover:scale-105" 
+                    src="Images/index_html/1200px-Xerox_logo.svg.png" 
+                    alt="Xerox"
+                    loading="lazy">
+            </a>
+
+            <!-- Search bar -->
+            <div class="hidden [@media(min-width:770px)]:block relative w-full md:max-w-xl" 
+                x-data="{ searchQuery: '', searchOpen: false }">
+                <div class="relative">
+                    <input 
+                        x-model="searchQuery"
+                        @focus="searchOpen = true"
+                        @blur="setTimeout(() => searchOpen = false, 150)"
+                        type="text" 
+                        placeholder="Rechercher un produit, une solution..." 
+                        class="w-full border border-gray-300 rounded-full px-5 py-2.5 pl-12 focus:outline-none focus:ring-2 focus:ring-primary shadow-sm text-sm md:text-base smooth-transition"
+                    >
+                    <ion-icon name="search-outline" 
+                            class="w-5 h-5 absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></ion-icon>
+                </div>
+                
+                <!-- Suggestions -->
+                <div 
+                    x-show="searchOpen && searchQuery.length > 0"
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0 transform translate-y-2"
+                    x-transition:enter-end="opacity-100 transform translate-y-0"
+                    x-transition:leave="transition ease-in duration-150"
+                    x-transition:leave-start="opacity-100 transform translate-y-0"
+                    x-transition:leave-end="opacity-0 transform translate-y-2"
+                    class="absolute left-0 right-0 mt-2 bg-white rounded-xl shadow-lg py-3 z-50 border border-gray-100"
+                >
+                    <div class="px-4 py-2 text-sm text-gray-500">
+                        Résultats pour "<span x-text="searchQuery" class="font-medium"></span>"
+                    </div>
+                    <div class="max-h-72 overflow-y-auto">
+                        <a href="#" class="block px-4 py-2.5 hover:bg-gray-50 smooth-transition">
+                            <div class="flex items-center">
+                                <ion-icon name="hardware-chip-outline" class="text-gray-400 mr-3"></ion-icon>
+                                <span>Imprimante <span x-text="searchQuery" class="font-medium"></span></span>
+                            </div>
+                        </a>
+                        <a href="#" class="block px-4 py-2.5 hover:bg-gray-50 smooth-transition">
+                            <div class="flex items-center">
+                                <ion-icon name="document-outline" class="text-gray-400 mr-3"></ion-icon>
+                                <span>Scanner <span x-text="searchQuery" class="font-medium"></span></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+<header 
+    x-data="{ 
+        open: false, 
+        scrolled: false, 
+        submenu: null,
+        searchOpen: false,
+        searchQuery: '',
+        randomTransition: 'random-transition-main'
+    }" 
+    x-init="
+        randomTransition = ['random-transition-top', 'random-transition-main'][Math.floor(Math.random() * 2)];
+        
+        window.addEventListener('scroll', () => { 
+            scrolled = window.scrollY > 10;
+            if (window.scrollY > 200) {
+                searchOpen = false;
+            }
+        });
+    "
+    class="sticky top-0 z-50"
+    :class="[scrolled ? 'bg-white/95 backdrop-blur-md navbar-shadow' : 'bg-white shadow-sm', randomTransition]"
+>
+
+    <!-- MAIN NAV : Logo SCT + Menus -->
+    <div class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
+        
+        <!-- Logo SCT -->
+        <a href="index.html" class="flex items-center flex-shrink-0">
+            <img class="w-32 md:w-48 transition-transform hover:scale-105" 
+                src="Images/index_html/sct-afrik.png" 
+                alt="SCT AFRICA"
+                loading="lazy">
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden xl:flex items-center space-x-8 text-gray-800 font-medium">
+            <!-- Accueil -->
+            <a href="index.html" 
+            class="hover:text-primary smooth-transition py-2 relative group">
+                Accueil
+                <span class="absolute bottom-0 left-0 h-0.5 bg-primary smooth-transition w-0 group-hover:w-full"></span>
+            </a>
+
+            <!-- À propos -->
+            <div class="relative group" x-data="{ open: false }">
+                <button 
+                    @click="open = !open"
+                    @mouseover="open = true" 
+                    @mouseleave="open = false"
+                    class="flex items-center gap-1 hover:text-primary smooth-transition py-2">
+                    À propos de nous
+                    <ion-icon name="chevron-down-outline" class="w-4 h-4 smooth-transition" :class="open ? 'rotate-180' : ''"></ion-icon>
+                </button>
+
+                <div 
+                    x-show="open"
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 transform translateY(-10px)"
+                    x-transition:enter-end="opacity-100 transform translateY(0)"
+                    class="absolute left-0 top-full hidden group-hover:flex flex-col bg-white shadow-xl rounded-lg mt-0 w-64 overflow-hidden border border-gray-100"
+                    @mouseover="open = true" 
+                    @mouseleave="open = false"
+                >
+                    <a href="about.html" class="px-6 py-3 hover:bg-gray-50 smooth-transition flex items-center">
+                        <ion-icon name="information-circle-outline" class="mr-2 text-gray-400"></ion-icon>
+                        À propos de nous
+                    </a>
+                    <a href="missions.html" class="px-6 py-3 hover:bg-gray-50 smooth-transition flex items-center">
+                        <ion-icon name="flag-outline" class="mr-2 text-gray-400"></ion-icon>
+                        Missions et Réalités
+                    </a>
+                    <a href="engagements.html" class="px-6 py-3 hover:bg-gray-50 smooth-transition flex items-center">
+                        <ion-icon name="heart-outline" class="mr-2 text-gray-400"></ion-icon>
+                        Nos engagements
+                    </a>
+                </div>
+            </div>
+
+            <!-- Produits (actif) -->
+            <div class="relative group" x-data="{ open: false }">
+                <button 
+                    @click="open = !open"
+                    @mouseover="open = true" 
+                    @mouseleave="open = false"
+                    class="flex items-center gap-1 hover:text-primary smooth-transition py-2 text-primary font-semibold">
+                    Produits et Services
+                    <ion-icon name="chevron-down-outline" class="w-4 h-4 smooth-transition" :class="open ? 'rotate-180' : ''"></ion-icon>
+                </button>
+
+                <div 
+                    x-show="open"
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 transform translateY(-10px)"
+                    x-transition:enter-end="opacity-100 transform translateY(0)"
+                    class="absolute left-0 top-full hidden group-hover:grid grid-cols-3 gap-8 bg-white shadow-2xl rounded-xl mt-0 w-[800px] p-8 border border-gray-100"
+                    @mouseover="open = true" 
+                    @mouseleave="open = false"
+                >
+                    <div>
+                        <h4 class="font-semibold text-primary mb-4 flex items-center">
+                            <ion-icon name="business-outline" class="mr-2"></ion-icon>
+                            Produits Office
+                        </h4>
+                        <ul class="space-y-3">
+                            <li><a href="products-imprimantes.html" class="hover:text-secondary smooth-transition flex items-center">
+                                <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
+                                Machines Xerox
+                            </a></li>
+                            <li><a href="#" class="hover:text-secondary smooth-transition flex items-center">
+                                <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
+                                Solutions d'impression
+                            </a></li>
+                            <li><a href="products-accessoires.html" class="hover:text-secondary smooth-transition flex items-center text-secondary font-semibold">
+                                <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
+                                Accessoires
+                            </a></li>
+                            <li><a href="products-scanners.html" class="hover:text-secondary smooth-transition flex items-center">
+                                <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
+                                Scanners
+                            </a></li>
+                            <li><a href="#" class="hover:text-secondary smooth-transition flex items-center">
+                                <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
+                                Logiciels d'impression
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact -->
+            <a href="contact.html" 
+            class="hover:text-primary smooth-transition py-2 relative group">
+                Contactez-Nous
+                <span class="absolute bottom-0 left-0 h-0.5 bg-primary smooth-transition w-0 group-hover:w-full"></span>
+            </a>
+        </nav>
+
+        <!-- CTA et Mobile button -->
+        <div class="flex items-center space-x-4">
+            <a href="https://sct.cfe-consulting-bf.com/devis" class="hidden lg:inline-block bg-primary hover:bg-blue-700 text-white font-medium py-2 px-5 rounded-full smooth-transition">
+                <ion-icon name="document-text-outline" class="inline-block w-5 h-5 mr-2"></ion-icon>
+                Demander un devis
+            </a>
+            
+            <button @click="open = !open" class="xl:hidden text-gray-700 focus:outline-none p-1 rounded-md hover:bg-gray-100">
+                <ion-icon :name="open ? 'close-outline' : 'menu-outline'" class="w-7 h-7"></ion-icon>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div x-show="open" x-transition class="xl:hidden bg-white shadow-lg border-t mobile-menu">
+        <nav class="space-y-1 py-4 px-6">
+            <!-- Accueil -->
+            <a href="index.html" 
+               class="block py-3 px-4 rounded-lg smooth-transition font-medium hover:bg-gray-50">
+                Accueil
+            </a>
+
+            <!-- À propos mobile -->
+            <div>
+                <button 
+                    @click="submenu === 'about' ? submenu = null : submenu = 'about'" 
+                    class="w-full flex justify-between items-center py-3 px-4 rounded-lg smooth-transition font-medium hover:bg-gray-50">
+                    <span>À propos de nous</span>
+                    <ion-icon :name="submenu==='about' ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+                </button>
+
+                <div x-show="submenu==='about'" class="pl-6 mt-1 space-y-2">
+                    <a href="about.html" class="block py-2 px-4 rounded-lg smooth-transition hover:bg-gray-50">À propos de nous</a>
+                    <a href="missions.html" class="block py-2 px-4 rounded-lg smooth-transition hover:bg-gray-50">Missions et Réalités</a>
+                    <a href="engagements.html" class="block py-2 px-4 rounded-lg smooth-transition hover:bg-gray-50">Nos engagements</a>
+                </div>
+            </div>
+
+            <!-- Produits mobile (actif) -->
+            <div>
+                <button 
+                    @click="submenu === 'products' ? submenu = null : submenu = 'products'" 
+                    class="w-full flex justify-between items-center py-3 px-4 rounded-lg smooth-transition font-medium bg-primary text-white font-semibold">
+                    <span>Produits et Services</span>
+                    <ion-icon :name="submenu==='products' ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+                </button>
+
+                <div x-show="submenu==='products'" class="pl-6 mt-1 space-y-2">
+                    <a href="products-imprimantes.html" 
+                       class="block py-2 px-4 rounded-lg smooth-transition hover:bg-gray-50">
+                        Machines Xerox
+                    </a>
+                    <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-50 smooth-transition">
+                        Solutions d'impression
+                    </a>
+                    <a href="products-accessoires.html" 
+                       class="block py-2 px-4 rounded-lg smooth-transition bg-gray-100 text-primary font-semibold">
+                        Accessoires
+                    </a>
+                    <a href="products-scanners.html" 
+                       class="block py-2 px-4 rounded-lg smooth-transition hover:bg-gray-50">
+                        Scanners
+                    </a>
+                    <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-50 smooth-transition">
+                        Logiciels d'impression
+                    </a>
+                    <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-50 smooth-transition">Tablettes</a>
+                    <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-50 smooth-transition">Logiciels</a>
+                    <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-50 smooth-transition">Cartouches</a>
+                    <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-50 smooth-transition">Papiers</a>
+                </div>
+            </div>
+
+            <!-- Contact -->
+            <a href="contact.html" 
+               class="block py-3 px-4 rounded-lg smooth-transition font-medium hover:bg-gray-50">
+                Contact
+            </a>
+            
+            <!-- Devis -->
+            <div class="pt-4 border-t border-gray-100 mt-4">
+                <a href="https://sct.cfe-consulting-bf.com/devis" 
+                   class="block w-full border-2 border-secondary text-secondary text-center font-medium py-3 px-5 rounded-lg smooth-transition">
+                    <ion-icon name="document-text-outline" class="inline-block w-5 h-5 mr-2"></ion-icon>
+                    Demander un devis
+                </a>
+            </div>
+        </nav>
+    </div>
+
+</header>
+
+    <section class="py-20 bg-gray-100">
+        <div class="container mx-auto px-6 lg:px-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center" data-aos="fade-up" data-aos-delay="200">Nos <span class="text-primary">Accessoires</span></h2>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Cartouches d'encre -->
+                <div class="bg-white rounded-lg shadow-lg p-6" data-aos="fade-up" data-aos-delay="300">
+                    <img src="Images/index_html/xerox-115r00128-receptacle-de-poudre-toner-original.jpg" alt="Accessoire pour imprimante Xerox" class="w-full h-48 object-contain mb-4">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Cartouches d'encre Xerox</h3>
+                    <p class="text-gray-600 mb-4">Cartouches d'encre de haute qualité pour une impression nette et durable.</p>
+                    <a href="#" class="inline-block bg-primary text-white px-4 py-2 rounded hover:bg-secondary transition">En savoir plus</a>
+                </div>
+                
+                <!-- Papier -->
+                <div class="bg-white rounded-lg shadow-lg p-6" data-aos="fade-up" data-aos-delay="400">
+                    <img src="Images/index_html/Print-Piece-Observing-2400x1600.jpg" alt="Accessoire pour imprimante Xerox" class="w-full h-48 object-contain mb-4">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Papier pour imprimante Xerox</h3>
+                    <p class="text-gray-600 mb-4">Papier de haute qualité pour des impressions professionnelles et durables.</p>
+                    <a href="#" class="inline-block bg-primary text-white px-4 py-2 rounded hover:bg-secondary transition">En savoir plus</a>
+                </div>
+
+                <!-- Kit tambour -->
+                <div class="bg-white rounded-lg shadow-lg p-6" data-aos="fade-up" data-aos-delay="500">
+                    <img src="Images/index_html/xerox-image.webp" alt="Accessoire pour imprimante Xerox" class="w-full h-48 object-contain mb-4">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Xerox Kit tambour</h3>
+                    <p class="text-gray-600 mb-4">
+                        Pour garantir une qualité d'impression optimale et prolonger la durée de vie de vos imprimantes Xerox.
+                    </p>
+                    <a href="#" class="inline-block bg-primary text-white px-4 py-2 rounded hover:bg-secondary transition">En savoir plus</a>
+                </div>  
+
+                <!-- Têtes d'impression -->
+                <div class="bg-white rounded-lg shadow-lg p-6" data-aos="fade-up" data-aos-delay="600">
+                    <img src="Images/index_html/short-hero_800x400.jpg" alt="Accessoire pour imprimante Xerox" class="w-full h-48 object-contain mb-4">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Têtes d'impression</h3>
+                    <p class="text-gray-600 mb-4">Têtes d'impression de rechange pour maintenir la qualité d'impression de vos appareils Xerox.</p>
+                    <a href="#" class="inline-block bg-primary text-white px-4 py-2 rounded hover:bg-secondary transition">En savoir plus</a>
+                </div>
+
+                <!-- Accessoires de maintenance -->
+                <div class="bg-white rounded-lg shadow-lg p-6" data-aos="fade-up" data-aos-delay="700">
+                    <img src="Images/index_html/home-img.jpg" alt="Accessoire pour imprimante Xerox" class="w-full h-48 object-contain mb-4">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Accessoires de maintenance</h3>
+                    <p class="text-gray-600 mb-4">Kits de maintenance et pièces de rechange pour assurer le bon fonctionnement de vos appareils Xerox.</p>
+                    <a href="#" class="inline-block bg-primary text-white px-4 py-2 rounded hover:bg-secondary transition">En savoir plus</a>
+                </div>
+
+                <!-- Supports et bacs -->
+                <div class="bg-white rounded-lg shadow-lg p-6" data-aos="fade-up" data-aos-delay="800">
+                    <img src="Images/index_html/imp-xerox.jpg" alt="Accessoire pour imprimante Xerox" class="w-full h-48 object-contain mb-4">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Supports et bacs</h3>
+                    <p class="text-gray-600 mb-4">Supports et bacs supplémentaires pour améliorer la capacité et l'organisation de vos appareils Xerox.</p>
+                    <a href="#" class="inline-block bg-primary text-white px-4 py-2 rounded hover:bg-secondary transition">En savoir plus</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partenaire Xerox -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6 lg:px-16 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4" data-aos="fade-up" data-aos-delay="200">
+                Notre <span class="text-primary">Partenaire</span> de confiance
+            </h2>
+            <p class="text-gray-600 max-w-2xl mx-auto mb-12" data-aos="fade-up" data-aos-delay="300">
+                Nous collaborons avec une marque reconnue pour vous offrir des solutions fiables et de haute qualité.
+            </p>
+            <div class="grid items-center" data-aos="fade-up" data-aos-delay="400">
+                <div class="group">
+                    <img src="Images/index_html/1200px-Xerox_logo.svg.png" 
+                        alt="Xerox"
+                        class="mx-auto h-12 grayscale group-hover:grayscale-0 group-hover:scale-105 transition duration-300">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-secondary text-white pt-16 pb-8 mt-0 relative py-20 mx-auto px-auto lg:px-10">
+        <div class="container mx-auto px-6 grid md:grid-cols-4 gap-10">
+            
+            <!-- Logo + Description -->
+            <div>
+                <img src="Images/logo-sct.png" alt="SCT AFRICA" class="w-28 mb-4">
+                <p class="text-sm leading-relaxed opacity-90">
+                    SCT AFRICA, votre partenaire dans le numérique et la vente de matériels informatiques.
+                    Nous vous offrons des solutions fiables, innovantes et adaptées à vos besoins.
+                </p>
+            </div>
+            
+            <!-- Navigation -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4 border-b border-white/30 inline-block">Navigation</h3>
+                <ul class="space-y-2">
+                    <li><a href="index.html" class="hover:text-accent transition">Accueil</a></li>
+                    <li><a href="about.html" class="hover:text-accent transition">Qui sommes-nous ?</a></li>
+                    <li><a href="missions.html" class="hover:text-accent transition">Missions et Réalités</a></li>
+                    <li><a href="engagements.html" class="hover:text-accent transition">Nos engagements</a></li>
+                    <li><a href="contact.html" class="hover:text-accent transition">Contact</a></li>
+                </ul>
+            </div>
+            
+            <!-- Produits -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4 border-b border-white/30 inline-block">Produits et Services</h3>
+                <ul class="space-y-2">
+                    <li><a href="products-imprimantes.html" class="hover:text-accent transition">Machines Xerox</a></li>
+                    <li><a href="#" class="hover:text-accent transition">Solutions d'impression</a></li>
+                    <li><a href="products-accessoires.html" class="hover:text-accent transition">Accessoires</a></li>
+                    <li><a href="products-scanners.html" class="hover:text-accent transition">Scanners</a></li>
+                    <li><a href="#" class="hover:text-accent transition">Logiciels d'impression</a></li>
+                </ul>
+            </div>
+            
+            <!-- Contact -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4 border-b border-white/30 inline-block">Contact</h3>
+                <p class="text-sm"><ion-icon name="location-outline" class="inline-block mr-2"></ion-icon>Dakar, Sénégal</p>
+                <p class="text-sm"><ion-icon name="call-outline" class="inline-block mr-2"></ion-icon>+221 70 00 00 00</p>
+                <p class="text-sm"><ion-icon name="mail-outline" class="inline-block mr-2"></ion-icon>contact@sct-africa.com</p>
+
+                <div class="flex gap-4 mt-4">
+                    <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-accent transition">
+                        <ion-icon name="logo-facebook"></ion-icon>
+                    </a>
+                    <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-accent transition">
+                        <ion-icon name="logo-twitter"></ion-icon>
+                    </a>
+                    <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-accent transition">
+                        <ion-icon name="logo-linkedin"></ion-icon>
+                    </a>
+                    <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-accent transition">
+                        <ion-icon name="logo-instagram"></ion-icon>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="border-t border-white/20 mt-12 pt-6 text-center text-sm opacity-80">© 2026 SCT AFRICA. Tous droits réservés.</div>
+    </footer>
+    
+    <!-- Bouton Retour en haut -->
+    <button id="backToTop"
+        class="hidden fixed bottom-6 right-6 p-3 rounded-full bg-secondary/20 backdrop-blur-lg border border-secondary/30 shadow-xl hover:scale-110 hover:bg-secondary/30 transition-all duration-500 ease-out z-50">
+        <ion-icon name="arrow-up-outline" class="text-2xl text-white drop-shadow-lg"></ion-icon>
+    </button>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>

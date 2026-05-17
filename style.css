@@ -19,12 +19,26 @@ html {
     scroll-behavior: smooth;
 }
 
+html:focus-within {
+    scroll-behavior: smooth;
+}
+
 body {
     min-height: 100vh;
     font-family: 'Inter', sans-serif;
     color: var(--text);
     background: var(--bg);
     line-height: 1.6;
+    text-rendering: optimizeLegibility;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
 }
 
 button,
@@ -50,6 +64,26 @@ img {
 
 .smooth-transition {
     transition: all 0.3s ease;
+}
+
+.submenu-enter {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.submenu-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.2s, transform 0.3s;
+}
+
+.search-suggestions {
+    display: none;
+}
+
+.search-bar:focus-within + .search-suggestions,
+.search-suggestions:hover {
+    display: block;
 }
 
 .bg-primary {
@@ -93,6 +127,7 @@ img {
 
 #backToTop {
     transition: transform 0.25s ease, opacity 0.25s ease;
+    will-change: transform, opacity;
 }
 
 #backToTop:hover {
@@ -201,6 +236,10 @@ img {
     display: block;
 }
 
+.nav-item:focus-within .dropdown-menu {
+    display: block;
+}
+
 .mega-dropdown {
     display: none;
     position: absolute;
@@ -218,4 +257,23 @@ img {
 
 .nav-item:hover .mega-dropdown {
     display: block;
+}
+
+.nav-item:focus-within .mega-dropdown {
+    display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html,
+    html:focus-within {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }

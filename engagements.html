@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="Images/logo-sct.png"/>
+    <title>Nos engagements - SCT AFRICA</title>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preload" as="style" href="https://sct.cfe-consulting-bf.com/build/assets/app-n0BMUso-.css" /><link rel="stylesheet" href="https://sct.cfe-consulting-bf.com/build/assets/app-n0BMUso-.css" />
+    <link rel="modulepreload" href="https://sct.cfe-consulting-bf.com/build/assets/app-BGDHvcUF.js" /><script type="module" src="https://sct.cfe-consulting-bf.com/build/assets/app-BGDHvcUF.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 text-gray-900 antialiased" x-data>
+
+    <div
+        x-data="{ lastScroll: 0, visible: true, randomTransition: 'random-transition-top' }"
+        x-init="
+            randomTransition = ['random-transition-top', 'random-transition-main'][Math.floor(Math.random() * 2)];
+
+            window.addEventListener('scroll', () => {
+                let currentScroll = window.scrollY;
+                if (currentScroll - lastScroll > 5 && currentScroll > 100) {
+                    visible = false;
+                } else if (lastScroll - currentScroll > 5) {
+                    visible = true;
+                }
+                lastScroll = currentScroll;
+            });
+        "
+        class="border-b border-gray-100 bg-accent sticky top-0 z-40 transform"
+        :class="[visible ? 'translate-y-0' : '-translate-y-full', randomTransition]"
+    >
+        <div class="container mx-auto px-4 sm:px-6 py-3 flex flex-col md:flex-row items-center justify-between gap-3">
+            <a href="index.html" class="flex items-center gap-3 flex-shrink-0">
+                <img class="w-24 md:w-36 transition-transform hover:scale-105"
+                    src="Images/index_html/1200px-Xerox_logo.svg.png"
+                    alt="Xerox"
+                    loading="lazy">
+            </a>
+
+            <div class="hidden [@media(min-width:770px)]:block relative w-full md:max-w-xl"
+                x-data="{ searchQuery: '', searchOpen: false }">
+                <div class="relative">
+                    <input
+                        x-model="searchQuery"
+                        @focus="searchOpen = true"
+                        @blur="setTimeout(() => searchOpen = false, 150)"
+                        type="text"
+                        placeholder="Rechercher un produit, une solution..."
+                        class="w-full border border-gray-300 rounded-full px-5 py-2.5 pl-12 focus:outline-none focus:ring-2 focus:ring-primary shadow-sm text-sm md:text-base smooth-transition"
+                    >
+                    <ion-icon name="search-outline"
+                            class="w-5 h-5 absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></ion-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<header
+    x-data="{
+        open: false,
+        scrolled: false,
+        submenu: null,
+        randomTransition: 'random-transition-main'
+    }"
+    x-init="
+        randomTransition = ['random-transition-top', 'random-transition-main'][Math.floor(Math.random() * 2)];
+
+        window.addEventListener('scroll', () => {
+            scrolled = window.scrollY > 10;
+        });
+    "
+    class="sticky top-0 z-50"
+    :class="[scrolled ? 'bg-white/95 backdrop-blur-md navbar-shadow' : 'bg-white shadow-sm', randomTransition]"
+>
+    <div class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
+        <a href="index.html" class="flex items-center flex-shrink-0">
+            <img class="w-32 md:w-48 transition-transform hover:scale-105"
+                src="Images/index_html/sct-afrik.png"
+                alt="SCT AFRICA"
+                loading="lazy">
+        </a>
+
+        <nav class="hidden xl:flex items-center space-x-8 text-gray-800 font-medium">
+            <a href="index.html" class="hover:text-primary smooth-transition py-2 relative group">
+                Accueil
+                <span class="absolute bottom-0 left-0 h-0.5 bg-primary smooth-transition w-0 group-hover:w-full"></span>
+            </a>
+
+            <div class="relative group" x-data="{ open: false }">
+                <button
+                    @click="open = !open"
+                    @mouseover="open = true"
+                    @mouseleave="open = false"
+                    class="flex items-center gap-1 hover:text-primary smooth-transition py-2 text-primary font-semibold">
+                    À propos de nous
+                    <ion-icon name="chevron-down-outline" class="w-4 h-4 smooth-transition" :class="open ? 'rotate-180' : ''"></ion-icon>
+                </button>
+
+                <div
+                    x-show="open"
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 transform translateY(-10px)"
+                    x-transition:enter-end="opacity-100 transform translateY(0)"
+                    class="absolute left-0 top-full hidden group-hover:flex flex-col bg-white shadow-xl rounded-lg mt-0 w-64 overflow-hidden border border-gray-100"
+                    @mouseover="open = true"
+                    @mouseleave="open = false"
+                >
+                    <a href="about.html" class="px-6 py-3 hover:bg-gray-50 smooth-transition flex items-center ">
+                        <ion-icon name="information-circle-outline" class="mr-2 text-gray-400"></ion-icon>
+                        À propos de nous
+                    </a>
+                    <a href="missions.html" class="px-6 py-3 hover:bg-gray-50 smooth-transition flex items-center ">
+                        <ion-icon name="flag-outline" class="mr-2 text-gray-400"></ion-icon>
+                        Missions et Réalités
+                    </a>
+                    <a href="engagements.html" class="px-6 py-3 hover:bg-gray-50 smooth-transition flex items-center text-primary font-semibold bg-gray-50">
+                        <ion-icon name="heart-outline" class="mr-2 text-gray-400"></ion-icon>
+                        Nos engagements
+                    </a>
+                </div>
+            </div>
+
+            <div class="relative group" x-data="{ open: false }">
+                <button
+                    @click="open = !open"
+                    @mouseover="open = true"
+                    @mouseleave="open = false"
+                    class="flex items-center gap-1 hover:text-primary smooth-transition py-2 ">
+                    Produits et Services
+                    <ion-icon name="chevron-down-outline" class="w-4 h-4 smooth-transition" :class="open ? 'rotate-180' : ''"></ion-icon>
+                </button>
+
+                <div
+                    x-show="open"
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 transform translateY(-10px)"
+                    x-transition:enter-end="opacity-100 transform translateY(0)"
+                    class="absolute left-0 top-full hidden group-hover:grid grid-cols-3 gap-8 bg-white shadow-2xl rounded-xl mt-0 w-[800px] p-8 border border-gray-100"
+                    @mouseover="open = true"
+                    @mouseleave="open = false"
+                >
+                    <div>
+                        <h4 class="font-semibold text-primary mb-4 flex items-center">
+                            <ion-icon name="business-outline" class="mr-2"></ion-icon>
+                            Produits Office
+                        </h4>
+                        <ul class="space-y-3">
+                            <li><a href="products-imprimantes.html" class="hover:text-secondary smooth-transition flex items-center ">
+                                <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
+                                Machines Xerox
+                            </a></li>
+                            <li><a href="#" class="hover:text-secondary smooth-transition flex items-center">
+                                <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
+                                Solutions d'impression
+                            </a></li>
+                            <li><a href="products-accessoires.html" class="hover:text-secondary smooth-transition flex items-center ">
+                                <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
+                                Accessoires
+                            </a></li>
+                            <li><a href="products-scanners.html" class="hover:text-secondary smooth-transition flex items-center ">
+                                <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
+                                Scanners
+                            </a></li>
+                            <li><a href="#" class="hover:text-secondary smooth-transition flex items-center">
+                                <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
+                                Logiciels d'impression
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <a href="contact.html" class="hover:text-primary smooth-transition py-2 relative group ">
+                Contactez-Nous
+                <span class="absolute bottom-0 left-0 h-0.5 bg-primary smooth-transition w-0 group-hover:w-full"></span>
+            </a>
+        </nav>
+
+        <div class="flex items-center space-x-4">
+            <a href="https://sct.cfe-consulting-bf.com/devis" class="hidden lg:inline-block bg-primary hover:bg-blue-700 text-white font-medium py-2 px-5 rounded-full smooth-transition">
+                <ion-icon name="document-text-outline" class="inline-block w-5 h-5 mr-2"></ion-icon>
+                Demander un devis
+            </a>
+
+            <button @click="open = !open" class="xl:hidden text-gray-700 focus:outline-none p-1 rounded-md hover:bg-gray-100">
+                <ion-icon :name="open ? 'close-outline' : 'menu-outline'" class="w-7 h-7"></ion-icon>
+            </button>
+        </div>
+    </div>
+
+    <div x-show="open" x-transition class="xl:hidden bg-white shadow-lg border-t mobile-menu">
+<nav class="space-y-1 py-4 px-6">
+    <a href="index.html" class="block py-3 px-4 rounded-lg smooth-transition font-medium hover:bg-gray-50">Accueil</a>
+
+    <div>
+        <button
+            @click="submenu === 'about' ? submenu = null : submenu = 'about'"
+            class="w-full flex justify-between items-center py-3 px-4 rounded-lg smooth-transition font-medium bg-primary text-white font-semibold">
+            <span>À propos de nous</span>
+            <ion-icon :name="submenu==='about' ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+        </button>
+
+        <div x-show="submenu==='about'" class="pl-6 mt-1 space-y-2">
+            <a href="about.html" class="block py-2 px-4 rounded-lg smooth-transition hover:bg-gray-50">À propos de nous</a>
+            <a href="missions.html" class="block py-2 px-4 rounded-lg smooth-transition hover:bg-gray-50">Missions et Réalités</a>
+            <a href="engagements.html" class="block py-2 px-4 rounded-lg smooth-transition bg-gray-100 text-primary font-semibold">Nos engagements</a>
+        </div>
+    </div>
+
+    <a href="contact.html" class="block py-3 px-4 rounded-lg smooth-transition font-medium hover:bg-gray-50">Contact</a>
+</nav>
+    </div>
+</header>
+
+<section class="relative bg-cover bg-center h-96 flex items-center justify-center" style="background-image: url('https://culture-rh.com/wp-content/uploads/2023/07/engagement-travail-collaborateurs-attentes.jpg');">
+    <div class="absolute inset-0 bg-black opacity-50"></div>
+    <div class="relative text-center text-white px-6 lg:px-16">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-4" data-aos="fade-down" data-aos-delay="200">Notre Engagement</h1>
+    </div>
+</section>
+
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-6 lg:px-16 flex flex-col md:flex-row items-center">
+        <div class="md:w-1/2 mb-10 md:mb-0" data-aos="fade-right" data-aos-delay="200">
+            <img src="https://img.freepik.com/photos-gratuite/jeune-homme-affaires-africain-homme-affaires-serrant-main-devant-vitre_23-2148190649.jpg?semt=ais_hybrid&w=740&q=80" alt="Notre engagement" class="rounded-lg shadow-lg">
+        </div>
+        <div class="md:w-1/2 md:pl-12" data-aos="fade-left" data-aos-delay="400">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Notre <span class="text-primary">Engagement</span></h2>
+            <p class="text-gray-600 mb-6">
+                Chez SCT AFRICA, nous nous engageons à fournir des solutions numériques
+                et des matériels informatiques de la plus haute qualité pour répondre
+                aux besoins variés de nos clients à travers l'Afrique de l'Ouest.
+                Notre mission est de faciliter la transformation digitale de nos clients
+                en leur offrant des produits innovants et un service client exceptionnel.
+            </p>
+            <p class="text-gray-600 mb-6">
+                Nous croyons en l'importance de l'innovation, de la fiabilité et de la
+                satisfaction client. C'est pourquoi nous travaillons en étroite
+                collaboration avec nos partenaires et fournisseurs pour garantir que
+                chaque produit que nous proposons répond aux normes les plus élevées de
+                qualité et de performance.
+            </p>
+            <p class="text-gray-600 mb-6">
+                Notre équipe de professionnels passionnés est dédiée à offrir des
+                solutions personnalisées qui répondent aux besoins spécifiques de
+                chaque client. Nous nous engageons à être un partenaire de confiance,
+                en fournissant non seulement des produits, mais aussi des conseils et
+                un support technique pour assurer le succès de nos clients dans leur
+                parcours numérique.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-6 lg:px-16 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4" data-aos="fade-bottom" data-aos-delay="200">
+            Notre <span class="text-primary">Partenaire</span> de confiance
+        </h2>
+        <p class="text-gray-600 max-w-2xl mx-auto mb-12" data-aos="fade-bottom" data-aos-delay="300">
+            Nous collaborons avec une marque reconnue pour vous offrir des solutions fiables et de haute qualité.
+        </p>
+
+        <div class="grid items-center" data-aos="fade-up" data-aos-delay="400">
+            <div class="group">
+                <img src="Images/index_html/1200px-Xerox_logo.svg.png"
+                    alt="Xerox"
+                    class="mx-auto h-12 grayscale group-hover:grayscale-0 group-hover:scale-105 transition duration-300">
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="bg-secondary text-white pt-16 pb-8 mt-0 relative py-20 mx-auto px-auto lg:px-10">
+    <div class="container mx-auto px-6 grid md:grid-cols-4 gap-10">
+        <div>
+            <img src="Images/logo-sct.png" alt="SCT AFRICA" class="w-28 mb-4">
+            <p class="text-sm leading-relaxed opacity-90">
+                SCT AFRICA, votre partenaire dans le numérique et la vente de matériels informatiques.
+                Nous vous offrons des solutions fiables, innovantes et adaptées à vos besoins.
+            </p>
+        </div>
+
+        <div>
+            <h3 class="text-lg font-semibold mb-4 border-b border-white/30 inline-block">Navigation</h3>
+            <ul class="space-y-2">
+                <li><a href="index.html" class="hover:text-accent transition">Accueil</a></li>
+                <li><a href="about.html" class="hover:text-accent transition">Qui sommes-nous ?</a></li>
+                <li><a href="missions.html" class="hover:text-accent transition">Missions et Réalités</a></li>
+                <li><a href="engagements.html" class="hover:text-accent transition">Nos engagements</a></li>
+                <li><a href="contact.html" class="hover:text-accent transition">Contact</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h3 class="text-lg font-semibold mb-4 border-b border-white/30 inline-block">Produits et Services</h3>
+            <ul class="space-y-2">
+                <li><a href="products-imprimantes.html" class="hover:text-accent transition">Machines Xerox</a></li>
+                <li><a href="#" class="hover:text-accent transition">Solutions d'impression</a></li>
+                <li><a href="products-accessoires.html" class="hover:text-accent transition">Accessoires</a></li>
+                <li><a href="products-scanners.html" class="hover:text-accent transition">Scanners</a></li>
+                <li><a href="#" class="hover:text-accent transition">Logiciels d'impression</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h3 class="text-lg font-semibold mb-4 border-b border-white/30 inline-block">Contact</h3>
+            <p class="text-sm"><ion-icon name="location-outline" class="inline-block mr-2"></ion-icon>Dakar, Sénégal</p>
+            <p class="text-sm"><ion-icon name="call-outline" class="inline-block mr-2"></ion-icon>+221 70 00 00 00</p>
+            <p class="text-sm"><ion-icon name="mail-outline" class="inline-block mr-2"></ion-icon>contact@sct-africa.com</p>
+
+            <div class="flex gap-4 mt-4">
+                <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-accent transition">
+                    <ion-icon name="logo-facebook"></ion-icon>
+                </a>
+                <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-accent transition">
+                    <ion-icon name="logo-twitter"></ion-icon>
+                </a>
+                <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-accent transition">
+                    <ion-icon name="logo-linkedin"></ion-icon>
+                </a>
+                <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-accent transition">
+                    <ion-icon name="logo-instagram"></ion-icon>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="border-t border-white/20 mt-12 pt-6 text-center text-sm opacity-80">© 2026 SCT AFRICA. Tous droits réservés.</div>
+</footer>
+
+<button id="backToTop" class="hidden fixed bottom-6 right-6 p-3 rounded-full bg-secondary/20 backdrop-blur-lg border border-secondary/30 shadow-xl hover:scale-110 hover:bg-secondary/30 transition-all duration-500 ease-out z-50">
+    <ion-icon name="arrow-up-outline" class="text-2xl text-white drop-shadow-lg"></ion-icon>
+</button>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

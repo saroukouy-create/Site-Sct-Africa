@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="Images/logo-sct.png"/>
+    <title>Produits Imprimantes - SCT AFRICA</title>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link rel="preload" as="style" href="https://sct.cfe-consulting-bf.com/build/assets/app-n0BMUso-.css" />
+    <link rel="stylesheet" href="https://sct.cfe-consulting-bf.com/build/assets/app-n0BMUso-.css" />
+    <link rel="modulepreload" href="https://sct.cfe-consulting-bf.com/build/assets/app-BGDHvcUF.js" />
+    <script type="module" src="https://sct.cfe-consulting-bf.com/build/assets/app-BGDHvcUF.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-50 text-gray-900 antialiased" x-data>
+
+    <!-- TOP BAR : Logo Xerox + Search -->
+    <div 
+        x-data="{ lastScroll: 0, visible: true, randomTransition: 'random-transition-top' }"
+        x-init="
+            randomTransition = ['random-transition-top', 'random-transition-main'][Math.floor(Math.random() * 2)];
+            
+            window.addEventListener('scroll', () => { 
+                let currentScroll = window.scrollY;
+                if (currentScroll - lastScroll > 5 && currentScroll > 100) { 
+                    visible = false;
+                } else if (lastScroll - currentScroll > 5) {
+                    visible = true;
+                }
+                lastScroll = currentScroll;
+            });
+        "
+        class="border-b border-gray-100 bg-accent sticky top-0 z-40 transform"
+        :class="[visible ? 'translate-y-0' : '-translate-y-full', randomTransition]"
+    >
+        <div class="container mx-auto px-4 sm:px-6 py-3 flex flex-col md:flex-row items-center justify-between gap-3">
+            
+            <!-- Logo Xerox -->
+            <a href="index.html" class="flex items-center gap-3 flex-shrink-0">
+                <img class="w-24 md:w-36 transition-transform hover:scale-105" 
+                    src="Images/index_html/1200px-Xerox_logo.svg.png" 
+                    alt="Xerox"
+                    loading="lazy">
+            </a>
+
+            <!-- Search bar -->
+            <div class="hidden [@media(min-width:770px)]:block relative w-full md:max-w-xl" 
+                x-data="{ searchQuery: '', searchOpen: false }">
+                <div class="relative">
+                    <input 
+                        x-model="searchQuery"
+                        @focus="searchOpen = true"
+                        @blur="setTimeout(() => searchOpen = false, 150)"
+                        type="text" 
+                        placeholder="Rechercher un produit, une solution..." 
+                        class="w-full border border-gray-300 rounded-full px-5 py-2.5 pl-12 focus:outline-none focus:ring-2 focus:ring-primary shadow-sm text-sm md:text-base smooth-transition"
+                    >
+                    <ion-icon name="search-outline" 
+                            class="w-5 h-5 absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></ion-icon>
+                </div>
+                
+                <!-- Suggestions -->
+                <div 
+                    x-show="searchOpen && searchQuery.length > 0"
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0 transform translate-y-2"
+                    x-transition:enter-end="opacity-100 transform translate-y-0"
+                    x-transition:leave="transition ease-in duration-150"
+                    x-transition:leave-start="opacity-100 transform translate-y-0"
+                    x-transition:leave-end="opacity-0 transform translate-y-2"
+                    class="absolute left-0 right-0 mt-2 bg-white rounded-xl shadow-lg py-3 z-50 border border-gray-100"
+                >
+                    <div class="px-4 py-2 text-sm text-gray-500">
+                        Résultats pour "<span x-text="searchQuery" class="font-medium"></span>"
+                    </div>
+                    <div class="max-h-72 overflow-y-auto">
+                        <a href="#" class="block px-4 py-2.5 hover:bg-gray-50 smooth-transition">
+                            <div class="flex items-center">
+                                <ion-icon name="hardware-chip-outline" class="text-gray-400 mr-3"></ion-icon>
+                                <span>Imprimante <span x-text="searchQuery" class="font-medium"></span></span>
+                            </div>
+                        </a>
+                        <a href="#" class="block px-4 py-2.5 hover:bg-gray-50 smooth-transition">
+                            <div class="flex items-center">
+                                <ion-icon name="document-outline" class="text-gray-400 mr-3"></ion-icon>
+                                <span>Scanner <span x-text="searchQuery" class="font-medium"></span></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+<header 
+    x-data="{ 
+        open: false, 
+        scrolled: false, 
+        submenu: null,
+        searchOpen: false,
+        searchQuery: '',
+        randomTransition: 'random-transition-main'
+    }" 
+    x-init="
+        randomTransition = ['random-transition-top', 'random-transition-main'][Math.floor(Math.random() * 2)];
+        
+        window.addEventListener('scroll', () => { 
+            scrolled = window.scrollY > 10;
+            if (window.scrollY > 200) {
+                searchOpen = false;
+            }
+        });
+    "
+    class="sticky top-0 z-50"
+    :class="[scrolled ? 'bg-white/95 backdrop-blur-md navbar-shadow' : 'bg-white shadow-sm', randomTransition]"
+>
+
+    <!-- MAIN NAV : Logo SCT + Menus -->
+    <div class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
+        
+        <!-- Logo SCT -->
+        <a href="index.html" class="flex items-center flex-shrink-0">
+            <img class="w-32 md:w-48 transition-transform hover:scale-105" 
+                src="Images/index_html/sct-afrik.png" 
+                alt="SCT AFRICA"
+                loading="lazy">
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden xl:flex items-center space-x-8 text-gray-800 font-medium">
+            <!-- Accueil -->
+            <a href="index.html" 
+            class="hover:text-primary smooth-transition py-2 relative group">
+                Accueil
+                <span class="absolute bottom-0 left-0 h-0.5 bg-primary smooth-transition w-0 group-hover:w-full"></span>
+            </a>
+
+            <!-- À propos -->
+            <div class="relative group" x-data="{ open: false }">
+                <button 
+                    @click="open = !open"
+                    @mouseover="open = true" 
+                    @mouseleave="open = false"
+                    class="flex items-center gap-1 hover:text-primary smooth-transition py-2">
+                    À propos de nous
+                    <ion-icon name="chevron-down-outline" class="w-4 h-4 smooth-transition" :class="open ? 'rotate-180' : ''"></ion-icon>
+                </button>
+
+                <div 
+                    x-show="open"
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 transform translateY(-10px)"
+                    x-transition:enter-end="opacity-100 transform translateY(0)"
+                    class="absolute left-0 top-full hidden group-hover:flex flex-col bg-white shadow-xl rounded-lg mt-0 w-64 overflow-hidden border border-gray-100"
+                    @mouseover="open = true" 
+                    @mouseleave="open = false"
+                >
+                    <a href="about.html" class="px-6 py-3 hover:bg-gray-50 smooth-transition flex items-center">
+                        <ion-icon name="information-circle-outline" class="mr-2 text-gray-400"></ion-icon>
+                        À propos de nous
+                    </a>
+                    <a href="missions.html" class="px-6 py-3 hover:bg-gray-50 smooth-transition flex items-center">
+                        <ion-icon name="flag-outline" class="mr-2 text-gray-400"></ion-icon>
+                        Missions et Réalités
+                    </a>
+                    <a href="engagements.html" class="px-6 py-3 hover:bg-gray-50 smooth-transition flex items-center">
+                        <ion-icon name="heart-outline" class="mr-2 text-gray-400"></ion-icon>
+                        Nos engagements
+                    </a>
+                </div>
+            </div>
+
+            <!-- Produits (actif) -->
+            <div class="relative group" x-data="{ open: false }">
+                <button 
+                    @click="open = !open"
+                    @mouseover="open = true" 
+                    @mouseleave="open = false"
+                    class="flex items-center gap-1 hover:text-primary smooth-transition py-2 text-primary font-semibold">
+                    Produits et Services
+                    <ion-icon name="chevron-down-outline" class="w-4 h-4 smooth-transition" :class="open ? 'rotate-180' : ''"></ion-icon>
+                </button>
+
+                <div 
+                    x-show="open"
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 transform translateY(-10px)"
+                    x-transition:enter-end="opacity-100 transform translateY(0)"
+                    class="absolute left-0 top-full hidden group-hover:grid grid-cols-3 gap-8 bg-white shadow-2xl rounded-xl mt-0 w-[800px] p-8 border border-gray-100"
+                    @mouseover="open = true" 
+                    @mouseleave="open = false"
+                >
+                    <div>
+                        <h4 class="font-semibold text-primary mb-4 flex items-center">
+                            <ion-icon name="business-outline" class="mr-2"></ion-icon>
+                            Produits Office
+                        </h4>
+                        <ul class="space-y-3">
+                            <li><a href="products-imprimantes.html" class="hover:text-secondary smooth-transition flex items-center text-secondary font-semibold">
+                                <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
+                                Machines Xerox
+                            </a></li>
+                            <li><a href="#" class="hover:text-secondary smooth-transition flex items-center">
+                                <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
+                                Solutions d'impression
+                            </a></li>
+                            <li><a href="products-accessoires.html" class="hover:text-secondary smooth-transition flex items-center">
+                                <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
+                                Accessoires
+                            </a></li>
+                            <li><a href="products-scanners.html" class="hover:text-secondary smooth-transition flex items-center">
+                                <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
+                                Scanners
+                            </a></li>
+                            <li><a href="#" class="hover:text-secondary smooth-transition flex items-center">
+                                <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
+                                Logiciels d'impression
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact -->
+            <a href="contact.html" 
+            class="hover:text-primary smooth-transition py-2 relative group">
+                Contactez-Nous
+                <span class="absolute bottom-0 left-0 h-0.5 bg-primary smooth-transition w-0 group-hover:w-full"></span>
+            </a>
+        </nav>
+
+        <!-- CTA et Mobile button -->
+        <div class="flex items-center space-x-4">
+            <a href="https://sct.cfe-consulting-bf.com/devis" class="hidden lg:inline-block bg-primary hover:bg-blue-700 text-white font-medium py-2 px-5 rounded-full smooth-transition">
+                <ion-icon name="document-text-outline" class="inline-block w-5 h-5 mr-2"></ion-icon>
+                Demander un devis
+            </a>
+            
+            <button @click="open = !open" class="xl:hidden text-gray-700 focus:outline-none p-1 rounded-md hover:bg-gray-100">
+                <ion-icon :name="open ? 'close-outline' : 'menu-outline'" class="w-7 h-7"></ion-icon>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div x-show="open" x-transition class="xl:hidden bg-white shadow-lg border-t mobile-menu">
+        <nav class="space-y-1 py-4 px-6">
+            <!-- Accueil -->
+            <a href="index.html" 
+               class="block py-3 px-4 rounded-lg smooth-transition font-medium hover:bg-gray-50">
+                Accueil
+            </a>
+
+            <!-- À propos mobile -->
+            <div>
+                <button 
+                    @click="submenu === 'about' ? submenu = null : submenu = 'about'" 
+                    class="w-full flex justify-between items-center py-3 px-4 rounded-lg smooth-transition font-medium hover:bg-gray-50">
+                    <span>À propos de nous</span>
+                    <ion-icon :name="submenu==='about' ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+                </button>
+
+                <div x-show="submenu==='about'" class="pl-6 mt-1 space-y-2">
+                    <a href="about.html" class="block py-2 px-4 rounded-lg smooth-transition hover:bg-gray-50">À propos de nous</a>
+                    <a href="missions.html" class="block py-2 px-4 rounded-lg smooth-transition hover:bg-gray-50">Missions et Réalités</a>
+                    <a href="engagements.html" class="block py-2 px-4 rounded-lg smooth-transition hover:bg-gray-50">Nos engagements</a>
+                </div>
+            </div>
+
+            <!-- Produits mobile (actif) -->
+            <div>
+                <button 
+                    @click="submenu === 'products' ? submenu = null : submenu = 'products'" 
+                    class="w-full flex justify-between items-center py-3 px-4 rounded-lg smooth-transition font-medium bg-primary text-white font-semibold">
+                    <span>Produits et Services</span>
+                    <ion-icon :name="submenu==='products' ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+                </button>
+
+                <div x-show="submenu==='products'" class="pl-6 mt-1 space-y-2">
+                    <a href="products-imprimantes.html" 
+                       class="block py-2 px-4 rounded-lg smooth-transition bg-gray-100 text-primary font-semibold">
+                        Machines Xerox
+                    </a>
+                    <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-50 smooth-transition">
+                        Solutions d'impression
+                    </a>
+                    <a href="products-accessoires.html" 
+                       class="block py-2 px-4 rounded-lg smooth-transition hover:bg-gray-50">
+                        Accessoires
+                    </a>
+                    <a href="products-scanners.html" 
+                       class="block py-2 px-4 rounded-lg smooth-transition hover:bg-gray-50">
+                        Scanners
+                    </a>
+                    <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-50 smooth-transition">
+                        Logiciels d'impression
+                    </a>
+                    <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-50 smooth-transition">Tablettes</a>
+                    <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-50 smooth-transition">Logiciels</a>
+                    <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-50 smooth-transition">Cartouches</a>
+                    <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-50 smooth-transition">Papiers</a>
+                </div>
+            </div>
+
+            <!-- Contact -->
+            <a href="contact.html" 
+               class="block py-3 px-4 rounded-lg smooth-transition font-medium hover:bg-gray-50">
+                Contact
+            </a>
+            
+            <!-- Devis -->
+            <div class="pt-4 border-t border-gray-100 mt-4">
+                <a href="https://sct.cfe-consulting-bf.com/devis" 
+                   class="block w-full border-2 border-secondary text-secondary text-center font-medium py-3 px-5 rounded-lg smooth-transition">
+                    <ion-icon name="document-text-outline" class="inline-block w-5 h-5 mr-2"></ion-icon>
+                    Demander un devis
+                </a>
+            </div>
+        </nav>
+    </div>
+
+</header>
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-12 px-4 sm:px-6 lg:px-8" 
+     x-data="{
+         section: null, 
+         submenu: null, 
+         subsubmenu: null,
+         init() {
+             this.$nextTick(() => {
+                 this.$el.querySelectorAll('[data-aos]').forEach(el => {
+                     el.classList.add('aos-init');
+                 });
+             });
+         }
+     }">
+
+    <div class="text-center mb-16" data-aos="fade-down">
+        <div class="inline-block bg-white rounded-2xl shadow-lg px-6 py-3 mb-4 border border-gray-200">
+            <span class="text-sm font-semibold text-primary bg-blue-50 px-3 py-1 rounded-full">XEROX</span>
+        </div>
+        <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-4 leading-tight">
+            Catalogue <span class="text-primary">Professionnel</span>
+        </h1>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+            Découvrez notre gamme complète de solutions d'impression bureautique et industrielle
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto mb-20">
+        <div 
+            class="group relative p-8 rounded-3xl bg-white/80 backdrop-blur-sm shadow-xl border border-white/20 cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:bg-blue-50/50"
+            @click="section = 'game'; submenu = null; subsubmenu = null"
+            data-aos="fade-right" 
+            data-aos-delay="100">
+            <div class="absolute -top-4 -right-4 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+            </div>
+            <div class="text-center">
+                <div class="w-16 h-16 bg-gradient-to-r from-secondary to-primary rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Game Office</h2>
+                <p class="text-gray-600 leading-relaxed">Solutions bureautiques performantes pour entreprises modernes</p>
+            </div>
+        </div>
+
+        <div 
+            class="group relative p-8 rounded-3xl bg-white/80 backdrop-blur-sm shadow-xl border border-white/20 cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:bg-orange-50/50"
+            @click="section = 'psg'; submenu = null; subsubmenu = null"
+            data-aos="fade-left" 
+            data-aos-delay="200">
+            <div class="absolute -top-4 -right-4 w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+            </div>
+            <div class="text-center">
+                <div class="w-16 h-16 bg-gradient-to-r from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Production (PSG)</h2>
+                <p class="text-gray-600 leading-relaxed">Haute performance pour volumes d'impression industriels</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== SECTION GAME OFFICE ========== -->
+    <div x-show="section === 'game'" x-cloak>
+        <div class="max-w-7xl mx-auto" data-aos="fade-up">
+            
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center space-x-4">
+                    <button @click="section = null; submenu = null; subsubmenu = null" 
+                            class="flex items-center space-x-2 text-gray-600 hover:text-primary transition-colors group">
+                        <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                        <span>Retour au catalogue</span>
+                    </button>
+                    <div class="h-6 w-px bg-gray-300"></div>
+                    <h3 class="text-3xl font-bold text-gray-900">Game Office</h3>
+                </div>
+                <div class="text-sm text-gray-500" x-text="submenu ? `Format ${submenu.toUpperCase()}` : ''"></div>
+            </div>
+
+            <div class="flex flex-wrap gap-4 mb-12">
+                <button class="category-btn bg-gradient-to-r from-secondary to-primary rounded-2xl w-32 h-16 text-white flex items-center justify-center" 
+                        @click="submenu = 'a4'; subsubmenu = null">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    Format A4
+                </button>
+                <button class="category-btn bg-gradient-to-r from-primary to-secondary rounded-2xl w-32 h-16 text-white flex items-center justify-center" 
+                        @click="submenu = 'a3'; subsubmenu = null">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    Format A3
+                </button>
+            </div>
+
+            <!-- FORMAT A4 -->
+            <div x-show="submenu === 'a4'" x-cloak>
+                <div class="space-y-8">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-2xl font-semibold text-gray-800">Format A4</h4>
+                        <button @click="submenu = null" 
+                                class="text-gray-500 hover:text-primary transition-colors flex items-center space-x-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                            </svg>
+                            <span>Retour aux formats</span>
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                        <div class="subcategory-card group cursor-pointer" @click="subsubmenu = 'mfp'">
+                            <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-200 transition-colors">
+                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                                </svg>
+                            </div>
+                            <h5 class="text-lg font-semibold text-gray-900 mb-2">Multifonctions (MFP)</h5>
+                            <p class="text-gray-600">Imprimantes tout-en-un couleur et N&amp;B</p>
+                            <div class="mt-4 flex items-center text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span>Explorer</span>
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="subcategory-card group cursor-pointer" @click="subsubmenu = 'printers'">
+                            <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-green-200 transition-colors">
+                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <h5 class="text-lg font-semibold text-gray-900 mb-2">Imprimantes</h5>
+                            <p class="text-gray-600">Solutions d'impression dédiées</p>
+                            <div class="mt-4 flex items-center text-green-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span>Explorer</span>
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- A4 - MFP -->
+                    <div x-show="subsubmenu === 'mfp'" x-cloak>
+                        <section class="py-8">
+                            <div class="container mx-auto px-4">
+                                <div class="text-center mb-12" data-aos="fade-up">
+                                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">A4 - Multifonctions (MFP)</h2>
+                                    <p class="text-xl text-gray-600 max-w-2xl mx-auto">Couleurs &amp; Noir et Blanc</p>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                    <!-- Xerox B225 -->
+                                    <div class="product-card group" data-aos="fade-up" data-aos-delay="100">
+                                        <div class="relative overflow-hidden bg-gray-50">
+                                                <img src="Images/index_html/imp-xerox.jpg" 
+                                                 alt="Xerox B225" 
+                                                 class="w-full h-64 object-contain p-6 group-hover:scale-105 transition-transform duration-500">
+                                            <div class="absolute top-4 right-4 flex flex-col space-y-2">
+                                                <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">Couleur</span>
+                                                <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">35 ppm</span>
+                                            </div>
+                                        </div>
+                                        <div class="p-6">
+                                            <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors">Xerox B225</h3>
+                                            <p class="text-gray-600 mb-4 leading-relaxed">Multifonction couleur compacte et performante pour petites entreprises</p>
+                                            <div class="flex flex-wrap gap-2 mb-6">
+                                                <span class="feature-badge">Couleur</span>
+                                                <span class="feature-badge">35 ppm</span>
+                                                <span class="feature-badge">Réseau</span>
+                                            </div>
+                                            <div class="flex items-center justify-between">
+                                                <a href="#" class="inline-flex items-center space-x-2 bg-primary text-white px-6 py-3 rounded-xl hover:bg-secondary transition-all duration-300 group-hover:shadow-lg font-semibold">
+                                                    <span>Découvrir</span>
+                                                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                                    </svg>
+                                                </a>
+                                                <button class="text-gray-400 hover:text-primary transition-colors p-2">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Xerox B605 -->
+                                    <div class="product-card group" data-aos="fade-up" data-aos-delay="200">
+                                        <div class="relative overflow-hidden bg-gray-50">
+                                                <img src="Images/index_html/home-img.jpg" 
+                                                 alt="Xerox B605" 
+                                                 class="w-full h-64 object-contain p-6 group-hover:scale-105 transition-transform duration-500">
+                                            <div class="absolute top-4 right-4 flex flex-col space-y-2">
+                                                <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">N&amp;B</span>
+                                                <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">42 ppm</span>
+                                            </div>
+                                        </div>
+                                        <div class="p-6">
+                                            <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors">Xerox B605</h3>
+                                            <p class="text-gray-600 mb-4 leading-relaxed">Solution N&amp;B économique avec scan vers email et cloud</p>
+                                            <div class="flex flex-wrap gap-2 mb-6">
+                                                <span class="feature-badge">N&amp;B</span>
+                                                <span class="feature-badge">42 ppm</span>
+                                                <span class="feature-badge">Double face auto</span>
+                                            </div>
+                                            <div class="flex items-center justify-between">
+                                                <a href="#" class="inline-flex items-center space-x-2 bg-primary text-white px-6 py-3 rounded-xl hover:bg-secondary transition-all duration-300 group-hover:shadow-lg font-semibold">
+                                                    <span>Découvrir</span>
+                                                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                                    </svg>
+                                                </a>
+                                                <button class="text-gray-400 hover:text-primary transition-colors p-2">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Xerox VersaLink B610 -->
+                                    <div class="product-card group" data-aos="fade-up" data-aos-delay="300">
+                                        <div class="relative overflow-hidden bg-gray-50">
+                                                <img src="Images/index_html/xerox-image.webp" 
+                                                 alt="Xerox VersaLink B610" 
+                                                 class="w-full h-64 object-contain p-6 group-hover:scale-105 transition-transform duration-500">
+                                            <div class="absolute top-4 right-4 flex flex-col space-y-2">
+                                                <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">Couleur</span>
+                                                <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">55 ppm</span>
+                                            </div>
+                                        </div>
+                                        <div class="p-6">
+                                            <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors">Xerox VersaLink B610</h3>
+                                            <p class="text-gray-600 mb-4 leading-relaxed">Multifonction robuste pour environnements de travail exigeants</p>
+                                            <div class="flex flex-wrap gap-2 mb-6">
+                                                <span class="feature-badge">Couleur</span>
+                                                <span class="feature-badge">55 ppm</span>
+                                                <span class="feature-badge">Écran tactile</span>
+                                            </div>
+                                            <div class="flex items-center justify-between">
+                                                <a href="#" class="inline-flex items-center space-x-2 bg-primary text-white px-6 py-3 rounded-xl hover:bg-secondary transition-all duration-300 group-hover:shadow-lg font-semibold">
+                                                    <span>Découvrir</span>
+                                                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                                    </svg>
+                                                </a>
+                                                <button class="text-gray-400 hover:text-primary transition-colors p-2">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center mt-12" data-aos="fade-up">
+                                    <p class="text-gray-600 mb-6">Vous ne trouvez pas ce que vous cherchez ?</p>
+                                    <a href="contact.html" 
+                                       class="inline-flex items-center space-x-2 bg-gray-900 text-white px-8 py-4 rounded-2xl hover:bg-primary transition-all duration-300 font-semibold shadow-lg hover:shadow-xl">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                        </svg>
+                                        <span>Contactez un expert</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- A4 - Imprimantes -->
+                    <div x-show="subsubmenu === 'printers'" x-cloak>
+                        <section class="py-8">
+                            <div class="container mx-auto px-4">
+                                <div class="text-center mb-12" data-aos="fade-up">
+                                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">A4 - Imprimantes</h2>
+                                    <p class="text-xl text-gray-600 max-w-2xl mx-auto">Solutions dédiées haute performance</p>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                    <!-- Xerox B235 -->
+                                    <div class="product-card group" data-aos="fade-up" data-aos-delay="300">
+                                        <div class="relative overflow-hidden bg-gray-50">
+                                                <img src="Images/index_html/imp-xerox.jpg" 
+                                                 alt="Xerox B235" 
+                                                 class="w-full h-64 object-contain p-6 group-hover:scale-105 transition-transform duration-500">
+                                            <div class="absolute top-4 right-4 flex flex-col space-y-2">
+                                                <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">N&amp;B</span>
+                                                <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">45 ppm</span>
+                                            </div>
+                                        </div>
+                                        <div class="p-6">
+                                            <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors">Xerox B235</h3>
+                                            <p class="text-gray-600 mb-4 leading-relaxed">Imprimante réseau N&amp;B haute vitesse pour groupes de travail</p>
+                                            <div class="flex flex-wrap gap-2 mb-6">
+                                                <span class="feature-badge">N&amp;B</span>
+                                                <span class="feature-badge">45 ppm</span>
+                                                <span class="feature-badge">Réseau intégré</span>
+                                            </div>
+                                            <div class="flex items-center justify-between">
+                                                <a href="#" class="inline-flex items-center space-x-2 bg-primary text-white px-6 py-3 rounded-xl hover:bg-secondary transition-all duration-300 group-hover:shadow-lg font-semibold">
+                                                    <span>Découvrir</span>
+                                                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                                    </svg>
+                                                </a>
+                                                <button class="text-gray-400 hover:text-primary transition-colors p-2">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Xerox B620 -->
+                                    <div class="product-card group" data-aos="fade-up" data-aos-delay="400">
+                                        <div class="relative overflow-hidden bg-gray-50">
+                                                <img src="Images/index_html/home-img.jpg" 
+                                                 alt="Xerox B620" 
+                                                 class="w-full h-64 object-contain p-6 group-hover:scale-105 transition-transform duration-500">
+                                            <div class="absolute top-4 right-4 flex flex-col space-y-2">
+                                                <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">Couleur</span>
+                                                <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">52 ppm</span>
+                                            </div>
+                                        </div>
+                                        <div class="p-6">
+                                            <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors">Xerox B620</h3>
+                                            <p class="text-gray-600 mb-4 leading-relaxed">Imprimante couleur professionnelle avec gestion avancée des médias</p>
+                                            <div class="flex flex-wrap gap-2 mb-6">
+                                                <span class="feature-badge">Couleur</span>
+                                                <span class="feature-badge">52 ppm</span>
+                                                <span class="feature-badge">Auto-duplex</span>
+                                            </div>
+                                            <div class="flex items-center justify-between">
+                                                <a href="#" class="inline-flex items-center space-x-2 bg-primary text-white px-6 py-3 rounded-xl hover:bg-secondary transition-all duration-300 group-hover:shadow-lg font-semibold">
+                                                    <span>Découvrir</span>
+                                                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                                    </svg>
+                                                </a>
+                                                <button class="text-gray-400 hover:text-primary transition-colors p-2">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Xerox B7100 -->
+                                    <div class="product-card group" data-aos="fade-up" data-aos-delay="500">
+                                        <div class="relative overflow-hidden bg-gray-50">
+                                                <img src="Images/index_html/xerox-image.webp" 
+                                                 alt="Xerox B7100" 
+                                                 class="w-full h-64 object-contain p-6 group-hover:scale-105 transition-transform duration-500">
+                                            <div class="absolute top-4 right-4 flex flex-col space-y-2">
+                                                <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">N&amp;B</span>
+                                                <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">62 ppm</span>
+                                            </div>
+                                        </div>
+                                        <div class="p-6">
+                                            <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors">Xerox B7100</h3>
+                                            <p class="text-gray-600 mb-4 leading-relaxed">Solution d'impression haut débit pour grands volumes</p>
+                                            <div class="flex flex-wrap gap-2 mb-6">
+                                                <span class="feature-badge">N&amp;B</span>
+                                                <span class="feature-badge">62 ppm</span>
+                                                <span class="feature-badge">Grand bac</span>
+                                            </div>
+                                            <div class="flex items-center justify-between">
+                                                <a href="#" class="inline-flex items-center space-x-2 bg-primary text-white px-6 py-3 rounded-xl hover:bg-secondary transition-all duration-300 group-hover:shadow-lg font-semibold">
+                                                    <span>Découvrir</span>
+                                                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                                    </svg>
+                                                </a>
+                                                <button class="text-gray-400 hover:text-primary transition-colors p-2">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center mt-12" data-aos="fade-up">
+                                    <p class="text-gray-600 mb-6">Vous ne trouvez pas ce que vous cherchez ?</p>
+                                    <a href="contact.html" 
+                                       class="inline-flex items-center space-x-2 bg-gray-900 text-white px-8 py-4 rounded-2xl hover:bg-primary transition-all duration-300 font-semibold shadow-lg hover:shadow-xl">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                        </svg>
+                                        <span>Contactez un expert</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FORMAT A3 -->
+            <div x-show="submenu === 'a3'" x-cloak>
+                <div class="space-y-8">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-2xl font-semibold text-gray-800">Format A3</h4>
+                        <button @click="submenu = null" 
+                                class="text-gray-500 hover:text-primary transition-colors flex items-center space-x-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                            </svg>
+                            <span>Retour aux formats</span>
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                        <div class="subcategory-card group cursor-pointer" @click="subsubmenu = 'moyenne'">
+                            <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-purple-200 transition-colors">
+                                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                            </div>
+                            <h5 class="text-lg font-semibold text-gray-900 mb-2">Moyenne Production</h5>
+                            <p class="text-gray-600">Solutions pour volumes modérés</p>
+                            <div class="mt-4 flex items-center text-purple-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span>Explorer</span>
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="subcategory-card group cursor-pointer" @click="subsubmenu = 'grande'">
+                            <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-red-200 transition-colors">
+                                <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                            </div>
+                            <h5 class="text-lg font-semibold text-gray-900 mb-2">Grande Production</h5>
+                            <p class="text-gray-600">Machines industrielles haut débit</p>
+                            <div class="mt-4 flex items-center text-red-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span>Explorer</span>
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- A3 - Moyenne Production -->
+                    <div x-show="subsubmenu === 'moyenne'" x-cloak>
+                        <section class="py-8">
+                            <div class="container mx-auto px-4">
+                                <div class="text-center mb-12" data-aos="fade-up">
+                                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">A3 - Moyenne Production</h2>
+                                    <p class="text-xl text-gray-600 max-w-2xl mx-auto">VersaLink Series</p>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                    <!-- Xerox VersaLink B8145 -->
+                                    <div class="product-card group" data-aos="fade-up" data-aos-delay="500">
+                                        <div class="relative overflow-hidden bg-gray-50">
+                                                <img src="Images/index_html/xerox-image.webp" 
+                                                 alt="Xerox VersaLink B8145" 
+                                                 class="w-full h-64 object-contain p-6 group-hover:scale-105 transition-transform duration-500">
+                                            <div class="absolute top-4 right-4 flex flex-col space-y-2">
+                                                <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">Couleur</span>
+                                                <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">45 ppm</span>
+                                            </div>
+                                        </div>
+                                        <div class="p-6">
+                                            <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors">Xerox VersaLink B8145</h3>
+                                            <p class="text-gray-600 mb-4 leading-relaxed">Multifonction couleur polyvalente pour équipes moyennes</p>
+                                            <div class="flex flex-wrap gap-2 mb-6">
+                                                <span class="feature-badge">Couleur</span>
+                                                <span class="feature-badge">45 ppm</span>
+                                                <span class="feature-badge">A3</span>
+                                            </div>
+                                            <div class="flex items-center justify-between">
+                                                <a href="#" class="inline-flex items-center space-x-2 bg-primary text-white px-6 py-3 rounded-xl hover:bg-secondary transition-all duration-300 group-hover:shadow-lg font-semibold">
+                                                    <span>Découvrir</span>
+                                                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                                    </svg>
+                                                </a>
+                                                <button class="text-gray-400 hover:text-primary transition-colors p-2">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Xerox VersaLink C7200 -->
+                                    <div class="product-card group" data-aos="fade-up" data-aos-delay="600">
+                                        <div class="relative overflow-hidden bg-gray-50">
+                                                <img src="Images/index_html/home-img.jpg" 
+                                                 alt="Xerox VersaLink C7200" 
+                                                 class="w-full h-64 object-contain p-6 group-hover:scale-105 transition-transform duration-500">
+                                            <div class="absolute top-4 right-4 flex flex-col space-y-2">
+                                                <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">Couleur</span>
+                                                <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">55 ppm</span>
+                                            </div>
+                                        </div>
+                                        <div class="p-6">
+                                            <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors">Xerox VersaLink C7200</h3>
+                                            <p class="text-gray-600 mb-4 leading-relaxed">Performance professionnelle avec finitions avancées</p>
+                                            <div class="flex flex-wrap gap-2 mb-6">
+                                                <span class="feature-badge">Couleur</span>
+                                                <span class="feature-badge">55 ppm</span>
+                                                <span class="feature-badge">Auto-reliure</span>
+                                            </div>
+                                            <div class="flex items-center justify-between">
+                                                <a href="#" class="inline-flex items-center space-x-2 bg-primary text-white px-6 py-3 rounded-xl hover:bg-secondary transition-all duration-300 group-hover:shadow-lg font-semibold">
+                                                    <span>Découvrir</span>
+                                                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                                    </svg>
+                                                </a>
+                                                <button class="text-gray-400 hover:text-primary transition-colors p-2">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center mt-12" data-aos="fade-up">
+                                    <p class="text-gray-600 mb-6">Vous ne trouvez pas ce que vous cherchez ?</p>
+                                    <a href="contact.html" 
+                                       class="inline-flex items-center space-x-2 bg-gray-900 text-white px-8 py-4 rounded-2xl hover:bg-primary transition-all duration-300 font-semibold shadow-lg hover:shadow-xl">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                        </svg>
+                                        <span>Contactez un expert</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- A3 - Grande Production -->
+                    <div x-show="subsubmenu === 'grande'" x-cloak>
+                        <section class="py-8">
+                            <div class="container mx-auto px-4">
+                                <div class="text-center mb-12" data-aos="fade-up">
+                                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">A3 - Grande Production</h2>
+                                    <p class="text-xl text-gray-600 max-w-2xl mx-auto">AltaLink Series</p>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                    <!-- Xerox AltaLink B8130 -->
+                                    <div class="product-card group" data-aos="fade-up" data-aos-delay="700">
+                                        <div class="relative overflow-hidden bg-gray-50">
+                                                <img src="Images/index_html/xerox-image.webp" 
+                                                 alt="Xerox AltaLink B8130" 
+                                                 class="w-full h-64 object-contain p-6 group-hover:scale-105 transition-transform duration-500">
+                                            <div class="absolute top-4 right-4 flex flex-col space-y-2">
+                                                <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">N&amp;B</span>
+                                                <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">85 ppm</span>
+                                            </div>
+                                        </div>
+                                        <div class="p-6">
+                                            <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors">Xerox AltaLink B8130</h3>
+                                            <p class="text-gray-600 mb-4 leading-relaxed">Solution haut débit pour environnements intensifs</p>
+                                            <div class="flex flex-wrap gap-2 mb-6">
+                                                <span class="feature-badge">N&amp;B</span>
+                                                <span class="feature-badge">85 ppm</span>
+                                                <span class="feature-badge">Production</span>
+                                            </div>
+                                            <div class="flex items-center justify-between">
+                                                <a href="#" class="inline-flex items-center space-x-2 bg-primary text-white px-6 py-3 rounded-xl hover:bg-secondary transition-all duration-300 group-hover:shadow-lg font-semibold">
+                                                    <span>Découvrir</span>
+                                                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                                    </svg>
+                                                </a>
+                                                <button class="text-gray-400 hover:text-primary transition-colors p-2">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Xerox AltaLink C9000 -->
+                                    <div class="product-card group" data-aos="fade-up" data-aos-delay="800">
+                                        <div class="relative overflow-hidden bg-gray-50">
+                                                <img src="Images/index_html/imp-xerox.jpg" 
+                                                 alt="Xerox AltaLink C9000" 
+                                                 class="w-full h-64 object-contain p-6 group-hover:scale-105 transition-transform duration-500">
+                                            <div class="absolute top-4 right-4 flex flex-col space-y-2">
+                                                <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">Couleur</span>
+                                                <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">90 ppm</span>
+                                            </div>
+                                        </div>
+                                        <div class="p-6">
+                                            <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors">Xerox AltaLink C9000</h3>
+                                            <p class="text-gray-600 mb-4 leading-relaxed">Imprimante couleur industrielle pour gros volumes</p>
+                                            <div class="flex flex-wrap gap-2 mb-6">
+                                                <span class="feature-badge">Couleur</span>
+                                                <span class="feature-badge">90 ppm</span>
+                                                <span class="feature-badge">Grand format</span>
+                                            </div>
+                                            <div class="flex items-center justify-between">
+                                                <a href="#" class="inline-flex items-center space-x-2 bg-primary text-white px-6 py-3 rounded-xl hover:bg-secondary transition-all duration-300 group-hover:shadow-lg font-semibold">
+                                                    <span>Découvrir</span>
+                                                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                                    </svg>
+                                                </a>
+                                                <button class="text-gray-400 hover:text-primary transition-colors p-2">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center mt-12" data-aos="fade-up">
+                                    <p class="text-gray-600 mb-6">Vous ne trouvez pas ce que vous cherchez ?</p>
+                                    <a href="contact.html" 
+                                       class="inline-flex items-center space-x-2 bg-gray-900 text-white px-8 py-4 rounded-2xl hover:bg-primary transition-all duration-300 font-semibold shadow-lg hover:shadow-xl">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                        </svg>
+                                        <span>Contactez un expert</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== SECTION PSG ========== -->
+    <div x-show="section === 'psg'" x-cloak>
+        <div class="max-w-7xl mx-auto" data-aos="fade-up">
+            
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center space-x-4">
+                    <button @click="section = null; submenu = null; subsubmenu = null" 
+                            class="flex items-center space-x-2 text-gray-600 hover:text-primary transition-colors group">
+                        <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                        <span>Retour au catalogue</span>
+                    </button>
+                    <div class="h-6 w-px bg-gray-300"></div>
+                    <h3 class="text-3xl font-bold text-gray-900">Machines de Production</h3>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                <button class="category-btn bg-gradient-to-r from-secondary to-primary h-14 rounded-2xl text-white flex items-center justify-center" 
+                        @click="submenu = 'couleur'; subsubmenu = null">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+                    </svg>
+                    Production Couleur
+                </button>
+                <button class="category-btn bg-gradient-to-r from-primary to-secondary h-14 rounded-2xl text-white flex items-center justify-center" 
+                        @click="submenu = 'nb'; subsubmenu = null">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
+                    </svg>
+                    Production N&amp;B
+                </button>
+            </div>
+
+            <!-- PSG - Production Couleur -->
+            <div x-show="submenu === 'couleur'" x-cloak>
+                <section class="py-8">
+                    <div class="container mx-auto px-4">
+                        <div class="text-center mb-12" data-aos="fade-up">
+                            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Production Couleur Industrielle</h2>
+                            <p class="text-xl text-gray-600 max-w-2xl mx-auto">Solutions haute performance pour grands volumes</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <!-- PrimeLink C -->
+                            <div class="product-card group" data-aos="fade-up" data-aos-delay="900">
+                                <div class="relative overflow-hidden bg-gray-50">
+                                    <img src="https://xos.ma/wp-content/uploads/2022/01/B8145_FRONT-800x760.jpg" 
+                                         alt="PrimeLink C" 
+                                         class="w-full h-64 object-contain p-6 group-hover:scale-105 transition-transform duration-500">
+                                    <div class="absolute top-4 right-4 flex flex-col space-y-2">
+                                        <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">Couleur</span>
+                                        <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">120 ppm</span>
+                                    </div>
+                                </div>
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors">PrimeLink C</h3>
+                                    <p class="text-gray-600 mb-4 leading-relaxed">Production couleur industrielle avec qualité photographique</p>
+                                    <div class="flex flex-wrap gap-2 mb-6">
+                                        <span class="feature-badge">Couleur</span>
+                                        <span class="feature-badge">120 ppm</span>
+                                        <span class="feature-badge">Industriel</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <a href="#" class="inline-flex items-center space-x-2 bg-primary text-white px-6 py-3 rounded-xl hover:bg-secondary transition-all duration-300 group-hover:shadow-lg font-semibold">
+                                            <span>Découvrir</span>
+                                            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                            </svg>
+                                        </a>
+                                        <button class="text-gray-400 hover:text-primary transition-colors p-2">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- VersaLink 280/4100 -->
+                            <div class="product-card group" data-aos="fade-up" data-aos-delay="1000">
+                                <div class="relative overflow-hidden bg-gray-50">
+                                    <img src="https://www.xerox.com/catalog_photos/B605V_S_FRONT_742x806.jpg" 
+                                         alt="VersaLink 280/4100" 
+                                         class="w-full h-64 object-contain p-6 group-hover:scale-105 transition-transform duration-500">
+                                    <div class="absolute top-4 right-4 flex flex-col space-y-2">
+                                        <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">Couleur</span>
+                                        <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">100 ppm</span>
+                                    </div>
+                                </div>
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors">VersaLink 280/4100</h3>
+                                    <p class="text-gray-600 mb-4 leading-relaxed">Fiabilité et précision pour environnements de production intensifs</p>
+                                    <div class="flex flex-wrap gap-2 mb-6">
+                                        <span class="feature-badge">Couleur</span>
+                                        <span class="feature-badge">100 ppm</span>
+                                        <span class="feature-badge">Production</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <a href="#" class="inline-flex items-center space-x-2 bg-primary text-white px-6 py-3 rounded-xl hover:bg-secondary transition-all duration-300 group-hover:shadow-lg font-semibold">
+                                            <span>Découvrir</span>
+                                            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                            </svg>
+                                        </a>
+                                        <button class="text-gray-400 hover:text-primary transition-colors p-2">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-12" data-aos="fade-up">
+                            <p class="text-gray-600 mb-6">Vous ne trouvez pas ce que vous cherchez ?</p>
+                            <a href="contact.html" 
+                               class="inline-flex items-center space-x-2 bg-gray-900 text-white px-8 py-4 rounded-2xl hover:bg-primary transition-all duration-300 font-semibold shadow-lg hover:shadow-xl">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                </svg>
+                                <span>Contactez un expert</span>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- PSG - Production N&B -->
+            <div x-show="submenu === 'nb'" x-cloak>
+                <section class="py-8">
+                    <div class="container mx-auto px-4">
+                        <div class="text-center mb-12" data-aos="fade-up">
+                            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Production Noir &amp; Blanc Industrielle</h2>
+                            <p class="text-xl text-gray-600 max-w-2xl mx-auto">Robustesse et productivité maximale</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <!-- PrimeLink 9100/9130 -->
+                            <div class="product-card group" data-aos="fade-up" data-aos-delay="1100">
+                                <div class="relative overflow-hidden bg-gray-50">
+                                    <img src="https://www.xerox.com/catalog_photos/B620V_DN_FRONT_2454x2630.jpg" 
+                                         alt="PrimeLink 9100/9130" 
+                                         class="w-full h-64 object-contain p-6 group-hover:scale-105 transition-transform duration-500">
+                                    <div class="absolute top-4 right-4 flex flex-col space-y-2">
+                                        <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">N&amp;B</span>
+                                        <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">150 ppm</span>
+                                    </div>
+                                </div>
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors">PrimeLink 9100/9130</h3>
+                                    <p class="text-gray-600 mb-4 leading-relaxed">Production N&amp;B ultra-rapide avec finitions professionnelles</p>
+                                    <div class="flex flex-wrap gap-2 mb-6">
+                                        <span class="feature-badge">N&amp;B</span>
+                                        <span class="feature-badge">150 ppm</span>
+                                        <span class="feature-badge">Industriel</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <a href="#" class="inline-flex items-center space-x-2 bg-primary text-white px-6 py-3 rounded-xl hover:bg-secondary transition-all duration-300 group-hover:shadow-lg font-semibold">
+                                            <span>Découvrir</span>
+                                            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                            </svg>
+                                        </a>
+                                        <button class="text-gray-400 hover:text-primary transition-colors p-2">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- PrimeLink B75 -->
+                            <div class="product-card group" data-aos="fade-up" data-aos-delay="1200">
+                                <div class="relative overflow-hidden bg-gray-50">
+                                    <img src="https://xos.ma/wp-content/uploads/2022/01/B225_DNI_FRONT-800x760.jpg" 
+                                         alt="PrimeLink B75" 
+                                         class="w-full h-64 object-contain p-6 group-hover:scale-105 transition-transform duration-500">
+                                    <div class="absolute top-4 right-4 flex flex-col space-y-2">
+                                        <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">N&amp;B</span>
+                                        <span class="feature-badge bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">130 ppm</span>
+                                    </div>
+                                </div>
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors">PrimeLink B75</h3>
+                                    <p class="text-gray-600 mb-4 leading-relaxed">Excellence en vitesse et durabilité pour impressions massives</p>
+                                    <div class="flex flex-wrap gap-2 mb-6">
+                                        <span class="feature-badge">N&amp;B</span>
+                                        <span class="feature-badge">130 ppm</span>
+                                        <span class="feature-badge">Production</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <a href="#" class="inline-flex items-center space-x-2 bg-primary text-white px-6 py-3 rounded-xl hover:bg-secondary transition-all duration-300 group-hover:shadow-lg font-semibold">
+                                            <span>Découvrir</span>
+                                            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                            </svg>
+                                        </a>
+                                        <button class="text-gray-400 hover:text-primary transition-colors p-2">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-12" data-aos="fade-up">
+                            <p class="text-gray-600 mb-6">Vous ne trouvez pas ce que vous cherchez ?</p>
+                            <a href="contact.html" 
+                               class="inline-flex items-center space-x-2 bg-gray-900 text-white px-8 py-4 rounded-2xl hover:bg-primary transition-all duration-300 font-semibold shadow-lg hover:shadow-xl">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                </svg>
+                                <span>Contactez un expert</span>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Partenaire Xerox -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-6 lg:px-16 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4" data-aos="fade-up" data-aos-delay="200">
+            Notre <span class="text-primary">Partenaire</span> de confiance
+        </h2>
+        <p class="text-gray-600 max-w-2xl mx-auto mb-12" data-aos="fade-up" data-aos-delay="300">
+            Nous collaborons avec une marque reconnue pour vous offrir des solutions fiables et de haute qualité.
+        </p>
+        <div class="grid items-center" data-aos="fade-up" data-aos-delay="400">
+            <div class="group">
+                <img src="Images/index_html/1200px-Xerox_logo.svg.png" 
+                    alt="Xerox"
+                    class="mx-auto h-12 grayscale group-hover:grayscale-0 group-hover:scale-105 transition duration-300">
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="bg-secondary text-white pt-16 pb-8 mt-0 relative py-20 mx-auto px-auto lg:px-10">
+    <div class="container mx-auto px-6 grid md:grid-cols-4 gap-10">
+        <div>
+            <img src="Images/logo-sct.png" alt="SCT AFRICA" class="w-28 mb-4">
+            <p class="text-sm leading-relaxed opacity-90">
+                SCT AFRICA, votre partenaire dans le numérique et la vente de matériels informatiques.
+                Nous vous offrons des solutions fiables, innovantes et adaptées à vos besoins.
+            </p>
+        </div>
+
+        <div>
+            <h3 class="text-lg font-semibold mb-4 border-b border-white/30 inline-block">Navigation</h3>
+            <ul class="space-y-2">
+                <li><a href="index.html" class="hover:text-accent transition">Accueil</a></li>
+                <li><a href="about.html" class="hover:text-accent transition">Qui sommes-nous ?</a></li>
+                <li><a href="missions.html" class="hover:text-accent transition">Missions et Réalités</a></li>
+                <li><a href="engagements.html" class="hover:text-accent transition">Nos engagements</a></li>
+                <li><a href="contact.html" class="hover:text-accent transition">Contact</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h3 class="text-lg font-semibold mb-4 border-b border-white/30 inline-block">Produits et Services</h3>
+            <ul class="space-y-2">
+                <li><a href="products-imprimantes.html" class="hover:text-accent transition">Machines Xerox</a></li>
+                <li><a href="#" class="hover:text-accent transition">Solutions d'impression</a></li>
+                <li><a href="products-accessoires.html" class="hover:text-accent transition">Accessoires</a></li>
+                <li><a href="products-scanners.html" class="hover:text-accent transition">Scanners</a></li>
+                <li><a href="#" class="hover:text-accent transition">Logiciels d'impression</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h3 class="text-lg font-semibold mb-4 border-b border-white/30 inline-block">Contact</h3>
+            <p class="text-sm"><ion-icon name="location-outline" class="inline-block mr-2"></ion-icon>Dakar, Sénégal</p>
+            <p class="text-sm"><ion-icon name="call-outline" class="inline-block mr-2"></ion-icon>+221 70 00 00 00</p>
+            <p class="text-sm"><ion-icon name="mail-outline" class="inline-block mr-2"></ion-icon>contact@sct-africa.com</p>
+
+            <div class="flex gap-4 mt-4">
+                <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-accent transition">
+                    <ion-icon name="logo-facebook"></ion-icon>
+                </a>
+                <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-accent transition">
+                    <ion-icon name="logo-twitter"></ion-icon>
+                </a>
+                <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-accent transition">
+                    <ion-icon name="logo-linkedin"></ion-icon>
+                </a>
+                <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-accent transition">
+                    <ion-icon name="logo-instagram"></ion-icon>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="border-t border-white/20 mt-12 pt-6 text-center text-sm opacity-80">© 2026 SCT AFRICA. Tous droits réservés.</div>
+</footer>
+
+<button id="backToTop"
+    class="hidden fixed bottom-6 right-6 p-3 rounded-full bg-secondary/20 backdrop-blur-lg border border-secondary/30 shadow-xl hover:scale-110 hover:bg-secondary/30 transition-all duration-500 ease-out z-50">
+    <ion-icon name="arrow-up-outline" class="text-2xl text-white drop-shadow-lg"></ion-icon>
+</button>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

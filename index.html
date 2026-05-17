@@ -5,92 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="https://sct-africa.site/assets/logo%20SCT.png"/>
     <title>Accueil - SCT AFRICA</title>
-    <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <link rel="preload" as="style" href="/build/assets/app-n0BMUso-.css" /><link rel="stylesheet" href="/build/assets/app-n0BMUso-.css" />    <link rel="modulepreload" href="/build/assets/app-BGDHvcUF.js" /><script type="module" src="/build/assets/app-BGDHvcUF.js"></script></head>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preload" as="style" href="https://sct.cfe-consulting-bf.com/build/assets/app-n0BMUso-.css" /><link rel="stylesheet" href="https://sct.cfe-consulting-bf.com/build/assets/app-n0BMUso-.css" />
+    <link rel="modulepreload" href="https://sct.cfe-consulting-bf.com/build/assets/app-BGDHvcUF.js" /><script type="module" src="https://sct.cfe-consulting-bf.com/build/assets/app-BGDHvcUF.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
 <body class="bg-gray-50 text-gray-900 antialiased" x-data>
-
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        
-        * {
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .navbar-shadow {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        }
-        
-        .smooth-transition {
-            transition: all 0.3s ease;
-        }
-        
-        .submenu-enter {
-            opacity: 0;
-            transform: translateY(10px);
-        }
-        
-        .submenu-enter-active {
-            opacity: 1;
-            transform: translateY(0);
-            transition: opacity 0.2s, transform 0.3s;
-        }
-        
-        .search-suggestions {
-            display: none;
-        }
-        
-        .search-bar:focus-within + .search-suggestions,
-        .search-suggestions:hover {
-            display: block;
-        }
-        
-        /* Animation pour le menu mobile */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .mobile-menu {
-            animation: fadeIn 0.3s ease forwards;
-        }
-        
-        /* Styles pour l'animation aléatoire */
-        .random-transition-top {
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        .random-transition-main {
-            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        
-        /* Animation pour les sous-menus */
-        @keyframes slideInRandom {
-            0% {
-                opacity: 0;
-                transform: translateY(15px) scale(0.95);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-        
-        .submenu-random {
-            animation: slideInRandom 0.3s ease-out forwards;
-        }
-    </style>
-
 
     <!-- TOP BAR : Logo SCT + Search -->
     <div 
         x-data="{ lastScroll: 0, visible: true, randomTransition: 'random-transition-top' }"
         x-init="
-            // Générer une transition aléatoire au chargement
-            const transitions = ['random-transition-top', 'random-transition-main'];
-            randomTransition = transitions[Math.floor(Math.random() * transitions.length)];
+            randomTransition = ['random-transition-top', 'random-transition-main'][Math.floor(Math.random() * 2)];
             
             window.addEventListener('scroll', () => { 
                 let currentScroll = window.scrollY;
@@ -109,12 +39,11 @@
         <div class="container mx-auto px-4 sm:px-6 py-3 flex flex-col md:flex-row items-center justify-between gap-3">
             
             <!-- Logo Xerox -->
-            <a href="/" class="flex items-center gap-3 flex-shrink-0">
-                <img class="w-28 sm:w-32 md:w-36 transition-transform hover:scale-105" 
-                    src="/assets/Logo_20Xerox.png" 
+                <a href="index.html" class="flex items-center gap-3 flex-shrink-0">
+                <img class="w-24 md:w-36 transition-transform hover:scale-105" 
+                    src="Images/index_html/1200px-Xerox_logo.svg.png" 
                     alt="Xerox"
-                    loading="eager"
-                    fetchpriority="high">
+                    loading="lazy">
             </a>
 
             <!-- Search bar -->
@@ -177,9 +106,7 @@
         randomTransition: 'random-transition-main'
     }" 
     x-init="
-        // Générer une transition aléatoire au chargement
-        const transitions = ['random-transition-top', 'random-transition-main'];
-        randomTransition = transitions[Math.floor(Math.random() * transitions.length)];
+    randomTransition = ['random-transition-top', 'random-transition-main'][Math.floor(Math.random() * 2)];
         
         window.addEventListener('scroll', () => { 
             scrolled = window.scrollY > 10;
@@ -203,9 +130,9 @@
     <div class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
         
         <!-- Logo Xerox -->
-        <a href="/" class="flex items-center flex-shrink-0">
+        <a href="index.html" class="flex items-center flex-shrink-0">
             <img class="w-32 md:w-48 transition-transform hover:scale-105" 
-            src="/image/sct-afrik.png" 
+            src="Images/index_html/sct-afrik.png" 
                 alt="SCT AFRICA"
                 loading="lazy">
         </a>
@@ -213,7 +140,7 @@
         <!-- Desktop Nav -->
         <nav class="hidden xl:flex items-center space-x-8 text-gray-800 font-medium">
             <!-- Accueil -->
-            <a href="/" 
+            <a href="https://sct.cfe-consulting-bf.com" 
             class="hover:text-primary smooth-transition py-2 relative group text-primary font-semibold">
                 Accueil
                 <span class="absolute bottom-0 left-0 h-0.5 bg-primary smooth-transition w-full"></span>
@@ -226,7 +153,7 @@
                     @mouseover="open = true" 
                     @mouseleave="open = false"
                     class="flex items-center gap-1 hover:text-primary smooth-transition py-2 ">
-                    A propos de nous
+                    À propos de nous
                     <ion-icon name="chevron-down-outline" class="w-4 h-4 smooth-transition" :class="open ? 'rotate-180' : ''"></ion-icon>
                 </button>
 
@@ -239,15 +166,15 @@
                     @mouseover="open = true" 
                     @mouseleave="open = false"
                 >
-                    <a href="/about/" class="px-6 py-3 hover:bg-gray-50 smooth-transition flex items-center ">
+                    <a href="about.html" class="px-6 py-3 hover:bg-gray-50 smooth-transition flex items-center ">
                         <ion-icon name="information-circle-outline" class="mr-2 text-gray-400"></ion-icon>
                         À propos de nous
                     </a>
-                    <a href="/missions/" class="px-6 py-3 hover:bg-gray-50 smooth-transition flex items-center ">
+                    <a href="missions.html" class="px-6 py-3 hover:bg-gray-50 smooth-transition flex items-center ">
                         <ion-icon name="flag-outline" class="mr-2 text-gray-400"></ion-icon>
                         Missions et Réalités
                     </a>
-                    <a href="/engagements/" class="px-6 py-3 hover:bg-gray-50 smooth-transition flex items-center ">
+                    <a href="engagements.html" class="px-6 py-3 hover:bg-gray-50 smooth-transition flex items-center ">
                         <ion-icon name="heart-outline" class="mr-2 text-gray-400"></ion-icon>
                         Nos engagements
                     </a>
@@ -280,7 +207,7 @@
                             Produits Office
                         </h4>
                         <ul class="space-y-3">
-                            <li><a href="/products-imprimantes/" class="hover:text-secondary smooth-transition flex items-center ">
+                            <li><a href="products-imprimantes.html" class="hover:text-secondary smooth-transition flex items-center ">
                                 <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
                                 Machines Xerox
                             </a></li>
@@ -288,11 +215,11 @@
                                 <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
                                 Solutions d'impression
                             </a></li>
-                            <li><a href="/products-accessoires/" class="hover:text-secondary smooth-transition flex items-center ">
+                            <li><a href="products-accessoires.html" class="hover:text-secondary smooth-transition flex items-center ">
                                 <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
                                 Accessoires
                             </a></li>
-                            <li><a href="/products-scanners/" class="hover:text-secondary smooth-transition flex items-center ">
+                            <li><a href="products-scanners.html" class="hover:text-secondary smooth-transition flex items-center ">
                                 <ion-icon name="chevron-forward-outline" class="mr-2 text-xs text-gray-400"></ion-icon>
                                 Scanners
                             </a></li>
@@ -308,7 +235,7 @@
             </div>
 
             <!-- Contact -->
-            <a href="/contact/" 
+            <a href="contact.html" 
             class="hover:text-primary smooth-transition py-2 relative group ">
                 Contactez-Nous
                 <span class="absolute bottom-0 left-0 h-0.5 bg-primary smooth-transition w-0 group-hover:w-full"></span>
@@ -318,7 +245,7 @@
 
         <!-- CTA et Mobile button -->
         <div class="flex items-center space-x-4">
-            <a href="/devis/" class="hidden lg:inline-block bg-primary hover:bg-blue-700 text-white font-medium py-2 px-5 rounded-full smooth-transition">
+            <a href="https://sct.cfe-consulting-bf.com/devis" class="hidden lg:inline-block bg-primary hover:bg-blue-700 text-white font-medium py-2 px-5 rounded-full smooth-transition">
                 <ion-icon name="document-text-outline" class="inline-block w-5 h-5 mr-2"></ion-icon>
                 Demander un devis
             </a>
@@ -333,7 +260,7 @@
     <div x-show="open" x-transition class="xl:hidden bg-white shadow-lg border-t mobile-menu">
 <nav class="space-y-1 py-4 px-6">
     <!-- Accueil -->
-    <a href="/" 
+    <a href="https://sct.cfe-consulting-bf.com" 
        class="block py-3 px-4 rounded-lg smooth-transition font-medium 
               bg-primary text-white font-semibold">
         Accueil
@@ -345,22 +272,22 @@
             @click="submenu === 'about' ? submenu = null : submenu = 'about'" 
             class="w-full flex justify-between items-center py-3 px-4 rounded-lg smooth-transition font-medium 
                    hover:bg-gray-50">
-            <span>A propos de nous</span>
+            <span>À propos de nous</span>
             <ion-icon :name="submenu==='about' ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
         </button>
 
-        <div x-show="submenu==='about'" x-collapse class="pl-6 mt-1 space-y-2">
-                <a href="/about/" 
+        <div x-show="submenu==='about'" class="pl-6 mt-1 space-y-2">
+                        <a href="about.html" 
                class="block py-2 px-4 rounded-lg smooth-transition 
                       hover:bg-gray-50">
                 À propos de nous
             </a>
-                <a href="/missions/" 
+                        <a href="missions.html" 
                class="block py-2 px-4 rounded-lg smooth-transition 
                       hover:bg-gray-50">
                 Missions et Réalités
             </a>
-                <a href="/engagements/" 
+                        <a href="engagements.html" 
                class="block py-2 px-4 rounded-lg smooth-transition 
                       hover:bg-gray-50">
                 Nos engagements
@@ -378,8 +305,8 @@
             <ion-icon :name="submenu==='products' ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
         </button>
 
-        <div x-show="submenu==='products'" x-collapse class="pl-6 mt-1 space-y-2">
-                <a href="/products-imprimantes/" 
+        <div x-show="submenu==='products'" class="pl-6 mt-1 space-y-2">
+                  <a href="products-imprimantes.html" 
                class="block py-2 px-4 rounded-lg smooth-transition 
                       hover:bg-gray-50">
                 Machines Xerox
@@ -387,12 +314,12 @@
             <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-50 smooth-transition">
                 Solutions d'impression
             </a>
-                <a href="/products-accessoires/" 
+                  <a href="products-accessoires.html" 
                class="block py-2 px-4 rounded-lg smooth-transition 
                       hover:bg-gray-50">
                 Accessoires
             </a>
-                <a href="/products-scanners/" 
+                  <a href="products-scanners.html" 
                class="block py-2 px-4 rounded-lg smooth-transition 
                       hover:bg-gray-50">
                 Scanners
@@ -416,7 +343,7 @@
     </div>
 
     <!-- Contact -->
-    <a href="/contact/" 
+    <a href="contact.html" 
        class="block py-3 px-4 rounded-lg smooth-transition font-medium 
               hover:bg-gray-50">
         Contact
@@ -424,7 +351,7 @@
     
     <!-- Devis -->
     <div class="pt-4 border-t border-gray-100 mt-4">
-        <a href="/devis/" 
+        <a href="https://sct.cfe-consulting-bf.com/devis" 
            class="block w-full border-2 border-secondary text-secondary text-center font-medium py-3 px-5 rounded-lg smooth-transition">
             <ion-icon name="document-text-outline" class="inline-block w-5 h-5 mr-2"></ion-icon>
             Demander un devis
@@ -436,13 +363,6 @@
 
 </header>
 
-<script>
-    // Fonction pour ajouter un effet de fluidité aléatoire
-    document.addEventListener('alpine:init', () => {
-        // Cette fonctionnalité est déjà intégrée dans les composants x-data
-    });
-</script>        
-    
 <div 
   x-data="{ currentIndex: 0, 
             slides: [
@@ -502,7 +422,7 @@
     <!-- Hero -->
     <section class="relative overflow-hidden">
     <div class="absolute inset-0">
-        <img src="https://www.beart.fr/wp-content/uploads/2024/10/imprimante-laser-professionnelle.jpg" 
+        <img src="Images/index_html/imprimante-laser-professionnelle.jpg" 
             alt="Impression grand format" 
             class="w-full h-full object-cover object-center">
         
@@ -527,7 +447,7 @@
           <div class="mt-6 flex gap-4">
             <a href="#produits" class="px-5 py-3 rounded-xl bg-light text-secondary font-semibold shadow">Découvrir nos services</a>
             
-            <a href="/devis/" class="px-5 py-3 rounded-xl border border-light text-light hover:bg-white/10">
+            <a href="https://sct.cfe-consulting-bf.com/devis" class="px-5 py-3 rounded-xl border border-light text-light hover:bg-white/10">
               <ion-icon name="flash-outline" class="mr-2"></ion-icon> Obtenir un devis
             </a>
           </div>
@@ -556,7 +476,7 @@
                 <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
               </svg>
             </button>
-            <div x-show="isOpen" x-collapse class="p-4">
+            <div x-show="isOpen" class="p-4">
               
               <p class="text-white">
                 
@@ -584,7 +504,7 @@
                 <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
               </svg>
             </button>
-            <div x-show="isOpen" x-collapse class="p-4">
+            <div x-show="isOpen" class="p-4">
               <p class="text-white">
                 <ion-icon name="checkmark-circle" class="mr-2"></ion-icon>
                 Nous fournissons des solutions d'impression sécurisées pour les documents électoraux, 
@@ -625,16 +545,16 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" data-aos="fade-up" data-aos-delay="400">
                 <!-- Service 1 -->
                 <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition">
-                    <img src="/image/img/imp-xerox.jpg" alt="Imprimantes & Copieurs" class="w-full h-48 object-cover rounded-md mb-4">
+                    <img src="Images/index_html/imp-xerox.jpg" alt="Imprimantes & Copieurs" class="w-full h-48 object-cover rounded-md mb-4">
                     <h3 class="text-xl font-semibold text-gray-900 mb-2">Machines Xerox</h3>
                     <p class="text-gray-600 mb-4">
                         Machines d'impression et de copie haute performance pour tous les environnements de travail.
                     </p>
-                    <a href="/products-imprimantes/" class="text-primary font-medium hover:underline">En savoir plus...</a>
+                    <a href="products-imprimantes.html" class="text-primary font-medium hover:underline">En savoir plus...</a>
                 </div>
                 <!-- Service 2 -->
                 <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition">
-                    <img src="https://www.xerox.com/assets/images/brand_engine/products/hardware/ALC82XX/short-hero_800x400.jpg" alt="Solutions IT & Cloud" class="w-full h-48 object-cover rounded-md mb-4">
+                    <img src="Images/index_html/short-hero_800x400.jpg" alt="Solutions IT & Cloud" class="w-full h-48 object-cover rounded-md mb-4">
                     <h3 class="text-xl font-semibold text-gray-900 mb-2">Solutions d'impression</h3>
                     <p class="text-gray-600 mb-4">
                         Des solutions d'impression avancées pour optimiser vos flux de travail et réduire les coûts.
@@ -643,25 +563,25 @@
                 </div>
                 <!-- Service 3 -->
                 <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition">
-                    <img src="https://www.encreservices.fr/storage/products/xerox-115r00128-receptacle-de-poudre-toner-original.jpg" alt="Accessoires" class="w-full h-48 object-cover rounded-md mb-4">
+                    <img src="Images/index_html/xerox-115r00128-receptacle-de-poudre-toner-original.jpg" alt="Accessoires" class="w-full h-48 object-cover rounded-md mb-4">
                     <h3 class="text-xl font-semibold text-gray-900 mb-2">Accessoires</h3>
                     <p class="text-gray-600 mb-4">
                         Une large gamme d'accessoires et consommables pour optimiser vos équipements.
                     </p>
-                    <a href="/products-accessoires/" class="text-primary font-medium hover:underline">En savoir plus...</a>
+                    <a href="products-accessoires.html" class="text-primary font-medium hover:underline">En savoir plus...</a>
                 </div>
                 
                 <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition">
-                    <img src="https://m.media-amazon.com/images/I/71P6z6yPZpL._AC_SL1500_.jpg" alt="Scanners" class="w-full h-48 object-cover rounded-md mb-4">
+                    <img src="Images/index_html/71P6z6yPZpL._AC_SL1500_.jpg" alt="Scanners" class="w-full h-48 object-cover rounded-md mb-4">
                     <h3 class="text-xl font-semibold text-gray-900 mb-2">Scanners</h3>
                     <p class="text-gray-600 mb-4">
                         Solutions de numérisation performantes pour une gestion documentaire efficace.
                     </p>
-                    <a href="/products-scanners/" class="text-primary font-medium hover:underline">En savoir plus...</a>
+                    <a href="products-scanners.html" class="text-primary font-medium hover:underline">En savoir plus...</a>
                 </div>
                 
                 <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition">
-                    <img src="https://images.ctfassets.net/ao073xfdpkqn/5b2fTEESs6XCyo5xArsabH/1129dc324523a055ccdf451bf297b738/Print-Piece-Observing-2400x1600.jpg" alt="Logiciels d'impression" class="w-full h-48 object-cover rounded-md mb-4">
+                    <img src="Images/index_html/Print-Piece-Observing-2400x1600.jpg" alt="Logiciels d'impression" class="w-full h-48 object-cover rounded-md mb-4">
                     <h3 class="text-xl font-semibold text-gray-900 mb-2">Logiciels d'impression</h3>
                     <p class="text-gray-600 mb-4">
                         Des solutions logicielles pour optimiser et sécuriser vos processus d'impression.
@@ -700,7 +620,7 @@
                 </li>
             </ul>
 
-            <a href="/contact/" class="inline-block mt-6 px-6 py-3 bg-primary text-white font-medium rounded-lg shadow-md hover:bg-secondary transition">
+            <a href="contact.html" class="inline-block mt-6 px-6 py-3 bg-primary text-white font-medium rounded-lg shadow-md hover:bg-secondary transition">
                 Contactez-nous
             </a>
             </div>
@@ -709,7 +629,7 @@
             <div class="flex-1 relative" data-aos="fade-left">
                 
                 
-                <img src="/image/home-img.jpg" 
+                <img src="Images/index_html/home-img.jpg" 
                     alt="Équipe SCT AFRICA" class="rounded-2xl shadow-lg w-full object-cover"
                 >
                 <div class="absolute inset-0 rounded-2xl mix-blend-multiply"></div>
@@ -724,7 +644,7 @@
             
             <!-- Image -->
             <div class="flex-1 relative order-last lg:order-first" data-aos="fade-right">
-            <img src="/image/xerox-image.webp" alt="Équipe SCT AFRICA" class="rounded-2xl shadow-lg w-full object-cover">
+            <img src="Images/index_html/xerox-image.webp" alt="Équipe SCT AFRICA" class="rounded-2xl shadow-lg w-full object-cover">
             <div class="absolute inset-0 rounded-2xl mix-blend-multiply"></div>
             </div>
 
@@ -776,7 +696,7 @@
             
                 <!-- Exemple de logo -->
                 <div class="group">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Xerox_logo.svg/1200px-Xerox_logo.svg.png" 
+                    <img src="Images/index_html/1200px-Xerox_logo.svg.png" 
                         alt="Xerox"
                         class="mx-auto h-12 grayscale group-hover:grayscale-0 group-hover:scale-105 transition duration-300">
                 </div>
@@ -855,7 +775,7 @@
         
         <!-- Logo + Description -->
         <div>
-            <img src="https://sct-africa.site/assets/logo%20SCT.png" alt="SCT AFRICA" class="w-28 mb-4">
+            <img src="Images/logo-sct.png" alt="SCT AFRICA" class="w-28 mb-4">
             <p class="text-sm leading-relaxed opacity-90">
                 SCT AFRICA, votre partenaire dans le numérique et la vente de matériels informatiques. 
                 Nous vous offrons des solutions fiables, innovantes et adaptées à vos besoins.
@@ -937,31 +857,9 @@
     </button>
 
 
-</body>
-
-    <!-- Animation AOS (optionnel si tu veux des effets smooth au scroll) -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init({
-            duration: 800,
-            once: true
-        });
-    </script>
+    <script src="script.js"></script>
 
-    <script>
-        // Bouton Retour en haut
-        const backToTopButton = document.getElementById('backToTop');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTopButton.classList.remove('hidden');
-            } else {
-                backToTopButton.classList.add('hidden');
-            }
-        });
-        backToTopButton.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    </script>
+</body>
 
 </html>
